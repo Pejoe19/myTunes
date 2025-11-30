@@ -5,6 +5,8 @@ import dk.easv.mytunes.Be.IndexSong;
 import dk.easv.mytunes.Be.Playlist;
 import dk.easv.mytunes.Be.Song;
 
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -20,6 +22,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Optional;
 
 public class MainController {
@@ -40,6 +43,7 @@ public class MainController {
     @FXML private Label lbDisplay;
     @FXML private Button btnPlay;
     @FXML private TableView<Song> tvSongs;
+    @FXML private TextField txfFilterSearchBar;
 
     private Song selectedSong;
     private Song currentSong;
@@ -80,7 +84,22 @@ public class MainController {
         tblCoTime.setCellValueFactory(new PropertyValueFactory<>("formattedTime"));
 
         try {
-            tvSongs.setItems(model.loadSongs());
+            FilteredList<Song> filteredList = new FilteredList<>(model.loadSongs());
+            txfFilterSearchBar.textProperty().addListener((observableValue, oldValue, newValue) -> {
+                filteredList.setPredicate((song) -> {
+                    if(newValue == null || newValue.isEmpty()) {
+                        return true;
+                    }
+                    String lowerCaseFilter = newValue.toLowerCase();
+                    if(song.getTitle().toLowerCase().contains(lowerCaseFilter) || song.getArtist().toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    }
+                    else {return false;}
+                });
+            });
+            SortedList<Song> sortedSong = new SortedList<>(filteredList);
+            sortedSong.comparatorProperty().bind(tvSongs.comparatorProperty());
+            tvSongs.setItems(sortedSong);
         } catch (MusicException e) {
             displayError(e);
         }
