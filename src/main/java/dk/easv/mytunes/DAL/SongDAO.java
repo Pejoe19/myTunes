@@ -98,7 +98,7 @@ public class SongDAO {
         }
     }
     public Song createSong(Song song) throws MusicException {
-        String sql = "INSERT INTO dbo.Songs (Title, Artist, Category, Time, File) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO dbo.Songs (Title, Artist, Category, Time) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = dbConnector.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -113,8 +113,8 @@ public class SongDAO {
             ps.setString(1, song.getTitle());
             ps.setString(2, song.getArtist());
             ps.setString(3, song.getCategory());
-            ps.setString(4, formattedTime);
-            ps.setString(5, song.getFilePath());
+            ps.setTime(4, Time.valueOf(formattedTime));
+            //ps.setString(5, null);
 
             ps.executeUpdate();
 
