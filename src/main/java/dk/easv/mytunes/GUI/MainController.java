@@ -138,6 +138,24 @@ public class MainController {
         tvSongsOnPlaylist.setItems(model.initializeActivePlayList());
     }
 
+    @FXML
+    private void onNewSong(ActionEvent actionEvent) {
+        try {
+            openSongWindow("new", null, actionEvent);
+        } catch (MusicException | IOException e) {
+            displayError(e);
+        }
+    }
+
+    public void createSong(Song newSong) {
+        try {
+            model.createSong(newSong);
+            loadSongs();
+            tvSongs.getSelectionModel().selectLast();
+        } catch (Exception e) {
+            displayError(e);
+        }
+    }
 
     @FXML
     private void editSong(ActionEvent actionEvent) {
@@ -360,6 +378,4 @@ public class MainController {
             }
         }
     }
-
-
 }

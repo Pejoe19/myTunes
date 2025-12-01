@@ -23,8 +23,6 @@ public class Logic {
         return songData.getAllSongs();
     }
 
-    private final PlaylistDAO playlistData = new PlaylistDAO();
-
     public List<Playlist> getPlaylists() throws MusicException {
         return playlistData.getPlaylists();
     }
@@ -57,4 +55,7 @@ public class Logic {
         playlistsSongData.switchPlaylistSongs(playlist, songPlacementId, newPlacementId);
     }
 
+        public Song createSong(Song song) throws MusicException {
+            return songData.createSong(song);
+    }
 }

@@ -28,6 +28,11 @@ public class Model {
         return songs;
     }
 
+    public void createSong(Song song) throws MusicException {
+        Song created = logic.createSong(song);
+        songs.add(created);
+    }
+
     public ObservableList<Song> getSongs() {
         return songs;
     }
