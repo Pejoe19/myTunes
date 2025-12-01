@@ -19,6 +19,7 @@ public class Model {
     private ObservableList<Song> songs;
     private ObservableList<Playlist> playlists;
     private ObservableList<IndexSong> activePlaylist;
+    private Song currentlyPlayingSong;
 
     public Model() throws MusicException {
     }
@@ -116,6 +117,10 @@ public class Model {
                 }
             }
         }
+    }
+
+    public void setCurrentlyPlayingSong(Song song) {
+        this.currentlyPlayingSong = song;
     }
 
     public void removeSongFromPlaylist(Playlist playlist, Song song) throws Exception {

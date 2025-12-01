@@ -66,14 +66,25 @@ public class MainController {
         loadSongs();
         loadPlaylists();
         initializeActivePlaylist();
+
         btnEditPL.setOnAction(this::onEditPlaylist);
         btnPlay.setOnAction(event -> onPlay());
 
-        tvSongs.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->{
-            if(newValue != null){
-                selectedSong = (Song) newValue;
+        tvSongs.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                selectedSong = newValue;
                 btnEditSong.setDisable(false);
                 btnDeleteSong.setDisable(false);
+
+                tvSongsOnPlaylist.getSelectionModel().clearSelection();
+            }
+        });
+
+        tvSongsOnPlaylist.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && newValue.getSong() != null) {
+                selectedSong = newValue.getSong();
+
+                tvSongs.getSelectionModel().clearSelection();
             }
         });
     }
@@ -300,22 +311,9 @@ public class MainController {
     }
 
     private void onPlay() {
-        Song songToPlay = null;
-        // Check if user selected from library
-        Song fromLibrary = tvSongs.getSelectionModel().getSelectedItem();
-        if (fromLibrary != null) {
-            songToPlay = fromLibrary;
-        }
-        // If not, check playlist table
-        else {
-            IndexSong selectedIndexSong = tvSongsOnPlaylist.getSelectionModel().getSelectedItem();
-            if (selectedIndexSong != null) {
-                songToPlay = selectedIndexSong.getSong();
-            }
-        }
-        if (songToPlay != null) {
-            currentSong = songToPlay;
-            lbDisplay.setText("Now playing: " + currentSong.getTitle() + " - " + currentSong.getArtist());
+        if (selectedSong != null) {
+            model.setCurrentlyPlayingSong(selectedSong);
+            lbDisplay.setText("Now playing: " + selectedSong.getTitle() + " - " + selectedSong.getArtist());
         } else {
             lbDisplay.setText("No song selected to play.");
         }
