@@ -1,6 +1,5 @@
 package dk.easv.mytunes.DAL;
 
-import dk.easv.mytunes.Be.Playlist;
 import dk.easv.mytunes.Be.Song;
 import dk.easv.mytunes.BLL.MusicException;
 
@@ -76,14 +75,24 @@ public class SongDAO {
     }
 
     public void deleteSong(Song song) throws MusicException {
-        String SQL = "delete from dbo.Songs where id=?";
+        String SQLDeleteInSongs = "delete from dbo.Songs where id=?";
         try (Connection conn = DBConnector.getStaticConnection()){
-            PreparedStatement stmt = conn.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement stmt = conn.prepareStatement(SQLDeleteInSongs, Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1,song.getId());
             stmt.executeQuery();
         }
         catch (Exception e){
-            throw new MusicException("Could not delete song in the database",e);
+            throw new MusicException("Could not delete song in the database songs",e);
+        }
+
+        String SQLDeleteInRelation = "delete from dbo.SongPlaylistRelation WHERE SongId = ?";
+        try (Connection conn = DBConnector.getStaticConnection()){
+            PreparedStatement stmt = conn.prepareStatement(SQLDeleteInRelation, Statement.RETURN_GENERATED_KEYS);
+            stmt.setInt(1,song.getId());
+            stmt.executeQuery();
+        }
+        catch (Exception e){
+            throw new MusicException("Could not delete song in the database relations",e);
         }
     }
     public Song createSong(Song song) throws MusicException {

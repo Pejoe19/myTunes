@@ -1,15 +1,20 @@
 package dk.easv.mytunes.BLL;
 
+import dk.easv.mytunes.Be.IndexSong;
 import dk.easv.mytunes.Be.Playlist;
 import dk.easv.mytunes.Be.Song;
 import dk.easv.mytunes.DAL.PlaylistDAO;
+import dk.easv.mytunes.DAL.PlaylistsSongDAO;
 import dk.easv.mytunes.DAL.SongDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Logic {
 
     private final SongDAO songData = new SongDAO();
+    private final PlaylistDAO playlistData = new PlaylistDAO();
+    private final PlaylistsSongDAO playlistsSongData = new PlaylistsSongDAO();
 
     public Logic() throws MusicException {
     }
@@ -40,9 +45,16 @@ public class Logic {
         return playlistData.updatePlaylist(playlist);
     }
 
-    private SongDAO songDAO = new SongDAO();
-
-    public Song createSong(Song song) throws MusicException {
-        return songDAO.createSong(song);
+    public ArrayList<IndexSong> getPlaylistsSong(Playlist playlist) throws Exception {
+        return playlistsSongData.getPlaylistsSong(playlist);
     }
+
+    public void removeSongFromPlaylist(Playlist playlist, Song song) throws Exception {
+        playlistsSongData.removeSongFromPlaylist(playlist, song);
+    }
+
+    public void switchPlaylistSongs(Playlist playlist, int songPlacementId, int newPlacementId) throws MusicException {
+        playlistsSongData.switchPlaylistSongs(playlist, songPlacementId, newPlacementId);
+    }
+
 }

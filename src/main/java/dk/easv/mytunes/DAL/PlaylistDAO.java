@@ -2,9 +2,11 @@ package dk.easv.mytunes.DAL;
 
 import dk.easv.mytunes.BLL.MusicException;
 import dk.easv.mytunes.Be.Playlist;
+import dk.easv.mytunes.Be.Song;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlaylistDAO {
 
@@ -25,19 +27,27 @@ public class PlaylistDAO {
         try (Connection conn = dbConnector.getConnection();
              Statement stmt = conn.createStatement())
         {
-            String sql = "SELECT * FROM dbo.Playlists";
+            String sql = "SELECT p.Id, p.Name,\n" +
+                    "COUNT(relation.songId) AS NumberOfSongs,\n" +
+                    "ISNULL(SUM(DATEDIFF(SECOND, 0, s.Time)), 0) AS TotalSeconds\n" +
+                    "FROM Playlists p\n" +
+                    "LEFT JOIN SongPlaylistRelation relation ON p.Id = relation.playlistId\n" +
+                    "LEFT JOIN Songs s ON relation.songId = s.Id\n" +
+                    "GROUP BY p.Id, p.Name\n" +
+                    "ORDER BY p.Id;";
             ResultSet rs = stmt.executeQuery(sql);
 
             // Loop through rows from the database result set
             while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                int numberOfSongs = rs.getInt("NumberOfSongs");
+                int totalSeconds = rs.getInt("TotalSeconds");
 
-                //Map DB row to Song object
-                int id = rs.getInt("Id");
-                String name = rs.getString("Name");
-
-                Playlist playlist = new Playlist(id, name);
+                Playlist playlist = new Playlist(id, name, numberOfSongs, totalSeconds);
                 playlists.add(playlist);
             }
+
             return playlists;
         }
         catch (SQLException ex)
@@ -74,4 +84,5 @@ public class PlaylistDAO {
             throw new MusicException("Could not update playlist in database", e);
         }
     }
+
 }
