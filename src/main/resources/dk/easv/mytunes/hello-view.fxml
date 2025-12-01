@@ -97,7 +97,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="btnNewSong" layoutX="460.0" layoutY="615.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="87.0" text="New Song">
+      <Button fx:id="btnNewSong" layoutX="460.0" layoutY="615.0" mnemonicParsing="false" onAction="#onNewSong" prefHeight="30.0" prefWidth="87.0" text="New Song">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

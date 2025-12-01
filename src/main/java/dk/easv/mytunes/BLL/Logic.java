@@ -39,4 +39,10 @@ public class Logic {
     public Playlist updatePlaylist(Playlist playlist) throws MusicException {
         return playlistData.updatePlaylist(playlist);
     }
+
+    private SongDAO songDAO = new SongDAO();
+
+    public Song createSong(Song song) throws MusicException {
+        return songDAO.createSong(song);
+    }
 }

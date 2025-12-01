@@ -70,4 +70,8 @@ public class Model {
             }
         }
     }
+    public void createSong(Song song) throws MusicException {
+        Song created = logic.createSong(song);
+        songs.add(created);
+    }
 }

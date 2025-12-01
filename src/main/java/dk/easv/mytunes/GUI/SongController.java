@@ -46,13 +46,29 @@ public class SongController {
 
     public void onSave(ActionEvent actionEvent) {
         if(editMode){
+            // Edit Mode.
             String timeAsString = txtFTime.getText();
             String[] timeParts = timeAsString.split("\\.");
             int timeInSeconds = Integer.parseInt(timeParts[0]) * 60 + Integer.parseInt(timeParts[1]);
             Song song = new Song(editId, txtFTitle.getText(), txtFArtist.getText(), cbCategory.getValue().toString(), timeInSeconds, txtFFile.getText());
             parent.updateSong(song);
             closeWindow(actionEvent);
+        } else {
+            // Create new song.
+            String timeAsString = txtFTime.getText();
+            String[] timeParts = timeAsString.split("\\.");
+            int timeInSeconds = Integer.parseInt(timeParts[0]) * 60 + Integer.parseInt(timeParts[1]);
+
+            Song newSong = new Song(
+                    txtFTitle.getText(),
+                    txtFArtist.getText(),
+                    cbCategory.getValue().toString(),
+                    timeInSeconds,
+                    txtFFile.getText()
+            );
+            parent.createSong(newSong);
         }
+        closeWindow(actionEvent);
     }
 
     public void closeWindow(ActionEvent actionEvent){

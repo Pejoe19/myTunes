@@ -86,4 +86,38 @@ public class SongDAO {
             throw new MusicException("Could not delete song in the database",e);
         }
     }
+    public Song createSong(Song song) throws MusicException {
+        String sql = "INSERT INTO dbo.Songs (Title, Artist, Category, Time, File) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = dbConnector.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            // Convert seconds → HH:MM:SS
+            int timeInSeconds = song.getTime();
+            int hours = timeInSeconds / 3600;
+            int minutes = (timeInSeconds % 3600) / 60;
+            int seconds = timeInSeconds % 60;
+            String formattedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+
+            ps.setString(1, song.getTitle());
+            ps.setString(2, song.getArtist());
+            ps.setString(3, song.getCategory());
+            ps.setString(4, formattedTime);
+            ps.setString(5, song.getFilePath());
+
+            ps.executeUpdate();
+
+            // Get generated ID
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                int newId = rs.getInt(1);
+                return new Song(newId, song.getTitle(), song.getArtist(), song.getCategory(), song.getTime(), song.getFilePath());
+            } else {
+                throw new MusicException("Creating song failed: No ID returned.");
+            }
+
+        } catch (SQLException e) {
+            throw new MusicException("Could not create song in the database", e);
+        }
+    }
 }

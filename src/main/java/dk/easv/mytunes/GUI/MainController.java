@@ -24,17 +24,28 @@ import java.util.Optional;
 
 public class MainController {
 
-    @FXML private TableView<Playlist> TvPlaylists;
-    @FXML private Button btnEditSong;
-    @FXML private TableColumn tblCoPLName;
-    @FXML private TableColumn tblCoPLSongs;
-    @FXML private TableColumn tblCoPLTime;
-    @FXML private TableView tvSongs;
-    @FXML private TableColumn tblCoTitle;
-    @FXML private TableColumn tblCoArtist;
-    @FXML private TableColumn tblCoTitle1;
-    @FXML private TableColumn tblCoTime;
-    @FXML private Button btnEditPL;
+    @FXML
+    private TableView<Playlist> TvPlaylists;
+    @FXML
+    private Button btnEditSong;
+    @FXML
+    private TableColumn tblCoPLName;
+    @FXML
+    private TableColumn tblCoPLSongs;
+    @FXML
+    private TableColumn tblCoPLTime;
+    @FXML
+    private TableView tvSongs;
+    @FXML
+    private TableColumn tblCoTitle;
+    @FXML
+    private TableColumn tblCoArtist;
+    @FXML
+    private TableColumn tblCoTitle1;
+    @FXML
+    private TableColumn tblCoTime;
+    @FXML
+    private Button btnEditPL;
 
     private Model model;
 
@@ -51,13 +62,13 @@ public class MainController {
     public MainController() {
     }
 
-    public void initialize(){
+    public void initialize() {
         loadSongs();
         loadPlaylists();
         btnEditPL.setOnAction(this::onEditPlaylist);
 
-        tvSongs.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->{
-            if(newValue != null){
+        tvSongs.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
                 selectedSong = (Song) newValue;
                 btnEditSong.setDisable(false);
             }
@@ -77,7 +88,7 @@ public class MainController {
         }
     }
 
-    private void loadPlaylists(){
+    private void loadPlaylists() {
         // Tells the table which properties of the playlist to show in which columns
         tblCoPLName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tblCoPLSongs.setCellValueFactory(new PropertyValueFactory<>("numberOfSongs"));
@@ -111,7 +122,7 @@ public class MainController {
         songController.setParent(this);
 
         // If the window is used to edit a song, then setup editmode and load the data for the song
-        if (windowType.equals("edit") && song != null){
+        if (windowType.equals("edit") && song != null) {
             songController.setEditMode();
             songController.init(song);
         }
@@ -131,9 +142,9 @@ public class MainController {
     @FXML
     private void onDeletePlaylist(ActionEvent actionEvent) {
         Playlist playlist = TvPlaylists.getSelectionModel().getSelectedItem();
-        if(playlist != null) {
-            if(conformationMassage("conformation massage", "do you want to delete playlist "+playlist.getName())){
-                try{
+        if (playlist != null) {
+            if (conformationMassage("conformation massage", "do you want to delete playlist " + playlist.getName())) {
+                try {
                     model.deletePlaylist(playlist);
                 } catch (Exception e) {
                     displayError(e);
@@ -144,11 +155,12 @@ public class MainController {
 
     /**
      * a dialog to confirm something
-     * @param title the title
+     *
+     * @param title   the title
      * @param message the message
      * @return true for yes and false for cancel
      */
-    private boolean conformationMassage(String title, String message){
+    private boolean conformationMassage(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setContentText(message);
@@ -157,8 +169,7 @@ public class MainController {
         return result.isPresent() && result.get() == ButtonType.YES;
     }
 
-    private void displayError(Throwable t)
-    {
+    private void displayError(Throwable t) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Something went wrong");
         alert.setHeaderText(t.getMessage());
@@ -175,9 +186,9 @@ public class MainController {
     }
 
     public void onDeleteSong(ActionEvent actionEvent) {
-        if(selectedSong != null) {
-            if(conformationMassage("conformation massage", "do you want to delete song "+ selectedSong.getTitle())){
-                try{
+        if (selectedSong != null) {
+            if (conformationMassage("conformation massage", "do you want to delete song " + selectedSong.getTitle())) {
+                try {
                     model.deleteSong(selectedSong);
                 } catch (Exception e) {
                     displayError(e);
@@ -232,4 +243,25 @@ public class MainController {
             displayError(e);
         }
     }
+
+    public void createSong(Song newSong) {
+        try {
+            model.createSong(newSong);
+            loadSongs();
+            tvSongs.getSelectionModel().selectLast();
+        } catch (Exception e)  {
+            displayError(e);
+        }
+    }
+
+    @FXML
+    private void onNewSong(ActionEvent actionEvent) throws MusicException,  IOException {
+        try {
+            openSongWindow("new", null,actionEvent);
+        }
+        catch (Exception e) {
+            displayError(e);
+        }
+    }
 }
+

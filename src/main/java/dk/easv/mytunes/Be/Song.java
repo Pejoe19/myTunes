@@ -17,6 +17,14 @@ public class Song {
         this.filePath = filePath;
     }
 
+    public Song(String title, String artist, String category, int time, String filePath) {
+        this.title = title;
+        this.artist = artist;
+        this.category = category;
+        this.time = time;
+        this.filePath = filePath;
+    }
+
     public String getFormattedTime() {
         int minutes = time / 60;
         int seconds = time % 60;
