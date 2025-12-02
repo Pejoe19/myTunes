@@ -18,13 +18,13 @@
       </Label>
       <HBox layoutX="32.0" layoutY="42.0" prefHeight="49.0" prefWidth="145.0">
          <children>
-            <Button fx:id="btnPrevS" mnemonicParsing="false" prefHeight="56.0" prefWidth="50.0" text="&lt;" />
+            <Button fx:id="btnPrevS" mnemonicParsing="false" onAction="#onPrevS" prefHeight="56.0" prefWidth="50.0" text="&lt;" />
             <Button fx:id="btnPlay" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="49.0" prefWidth="58.0" text="►" textAlignment="CENTER">
                <font>
                   <Font size="23.0" />
                </font>
             </Button>
-            <Button fx:id="btnNextS" mnemonicParsing="false" prefHeight="56.0" prefWidth="50.0" text="&gt;" />
+            <Button fx:id="btnNextS" mnemonicParsing="false" onAction="#onNextS" prefHeight="56.0" prefWidth="50.0" text="&gt;" />
          </children>
       </HBox>
       <TableView fx:id="tvSongs" layoutX="458.0" layoutY="142.0" prefHeight="459.0" prefWidth="395.0">

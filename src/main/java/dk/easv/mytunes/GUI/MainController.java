@@ -392,4 +392,34 @@ public class MainController {
         }
     }
 
+    @FXML
+    private void onNextS(ActionEvent event) {
+        try {
+            Song next = model.getNextSong();
+            if (next != null) {
+                model.setCurrentlyPlayingSong(next);
+                lbDisplay.setText("Now playing: " + next.getTitle() + " - " + next.getArtist());
+            } else {
+                lbDisplay.setText("Reached end of playlist.");
+            }
+        } catch (Exception e) {
+            displayError(e);
+        }
+    }
+
+    @FXML
+    private void onPrevS(ActionEvent event) {
+        try {
+            Song prev = model.getPreviousSong();
+            if (prev != null) {
+                model.setCurrentlyPlayingSong(prev);
+                lbDisplay.setText("Now playing: " + prev.getTitle() + " - " + prev.getArtist());
+            } else {
+                lbDisplay.setText("At the start of the playlist.");
+            }
+        } catch (Exception e) {
+            displayError(e);
+        }
+    }
+
 }
