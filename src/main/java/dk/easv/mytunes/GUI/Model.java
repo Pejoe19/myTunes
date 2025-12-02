@@ -123,8 +123,8 @@ public class Model {
         this.currentlyPlayingSong = song;
     }
 
-    public void removeSongFromPlaylist(Playlist playlist, Song song) throws Exception {
-        logic.removeSongFromPlaylist(playlist, song);
+    public void removeSongFromPlaylist(Playlist playlist, IndexSong indexSong) throws Exception {
+        logic.removeSongFromPlaylist(playlist, indexSong);
     }
 
     public void switchPlaylistOrder(Playlist playlist, int songPlacementId, int newPlacementId) throws MusicException {

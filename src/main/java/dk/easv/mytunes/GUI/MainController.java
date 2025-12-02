@@ -325,15 +325,15 @@ public class MainController {
         IndexSong selectedIndexSong = tvSongsOnPlaylist.getSelectionModel().getSelectedItem();
 
         if (selectedPlaylist != null && selectedIndexSong != null && selectedIndexSong.getSong() != null) {
-            Song selectedSong = selectedIndexSong.getSong();
-
             if (conformationMassage("Remove Song",
-                    "Do you want to remove \"" + selectedSong.getTitle() +
+                    "Do you want to remove \"" + selectedIndexSong.getSong().getTitle() +
                             "\" from playlist \"" + selectedPlaylist.getName() + "\"?")) {
 
                 try {
-                    model.removeSongFromPlaylist(selectedPlaylist, selectedSong);
-                    model.displayPlaylist(selectedPlaylist); // Refresh the playlist view
+
+                    model.removeSongFromPlaylist(selectedPlaylist, selectedIndexSong);
+
+                    model.displayPlaylist(selectedPlaylist);
                 } catch (Exception e) {
                     displayError(e);
                 }

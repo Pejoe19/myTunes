@@ -38,14 +38,14 @@ public class PlaylistsSongDAO {
         }
     }
 
-    public void removeSongFromPlaylist(Playlist playlist, Song song) throws Exception {
-        String sql = "DELETE FROM dbo.SongPlaylistRelation WHERE PlaylistId = ? AND SongId = ?";
+    public void removeSongFromPlaylist(Playlist playlist, int songIndex) throws Exception {
+        String sql = "DELETE FROM dbo.SongPlaylistRelation WHERE PlaylistId = ? AND [Index] = ?";
 
         try (Connection conn = DBConnector.getStaticConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, playlist.getId());
-            stmt.setInt(2, song.getId());
+            stmt.setInt(2, songIndex);
             stmt.executeUpdate();
 
         } catch (SQLException e) {

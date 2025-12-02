@@ -47,8 +47,8 @@ public class Logic {
         return playlistsSongData.getPlaylistsSong(playlist);
     }
 
-    public void removeSongFromPlaylist(Playlist playlist, Song song) throws Exception {
-        playlistsSongData.removeSongFromPlaylist(playlist, song);
+    public void removeSongFromPlaylist(Playlist playlist, IndexSong indexSong) throws Exception {
+        playlistsSongData.removeSongFromPlaylist(playlist, indexSong.getIndex());
     }
 
     public void switchPlaylistSongs(Playlist playlist, int songPlacementId, int newPlacementId) throws MusicException {
