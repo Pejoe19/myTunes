@@ -20,6 +20,8 @@ public class Model {
     private ObservableList<Playlist> playlists;
     private ObservableList<IndexSong> activePlaylist;
     private Song currentlyPlayingSong;
+    private int currentSongIndex = -1;
+    private boolean playingFromPlaylist = false;
 
     public Model() throws MusicException {
     }
@@ -120,11 +122,64 @@ public class Model {
     }
 
     public void setCurrentlyPlayingSong(Song song) {
-        this.currentlyPlayingSong = song;
+        // Check if the song exists in the active playlist
+        if (activePlaylist != null && !activePlaylist.isEmpty()) {
+            for (int i = 0; i < activePlaylist.size(); i++) {
+                if (activePlaylist.get(i).getSong().getId() == song.getId()) {
+                    currentSongIndex = i;
+                    playingFromPlaylist = true;
+                    return;
+                }
+            }
+        }
+        // Otherwise, it must come from the library
+        if (songs != null && !songs.isEmpty()) {
+            for (int i = 0; i < songs.size(); i++) {
+                if (songs.get(i).getId() == song.getId()) {
+                    currentSongIndex = i;
+                    playingFromPlaylist = false;
+                    return;
+                }
+            }
+        }
     }
 
-    public void removeSongFromPlaylist(Playlist playlist, Song song) throws Exception {
-        logic.removeSongFromPlaylist(playlist, song);
+    public Song getCurrentlyPlayingSong() {
+        return currentlyPlayingSong;
+    }
+
+    public Song getNextSong() {
+        if (playingFromPlaylist && activePlaylist != null && !activePlaylist.isEmpty()) {
+            if (currentSongIndex < activePlaylist.size() - 1) {
+                currentSongIndex++;
+                return activePlaylist.get(currentSongIndex).getSong();
+            }
+        } else if (!playingFromPlaylist && songs != null && !songs.isEmpty()) {
+            if (currentSongIndex < songs.size() - 1) {
+                currentSongIndex++;
+                return songs.get(currentSongIndex);
+            }
+        }
+        return null;
+    }
+
+    public Song getPreviousSong() {
+        if (playingFromPlaylist && activePlaylist != null && !activePlaylist.isEmpty()) {
+            if (currentSongIndex > 0) {
+                currentSongIndex--;
+                return activePlaylist.get(currentSongIndex).getSong();
+            }
+        } else if (!playingFromPlaylist && songs != null && !songs.isEmpty()) {
+            if (currentSongIndex > 0) {
+                currentSongIndex--;
+                return songs.get(currentSongIndex);
+            }
+        }
+        return null;
+    }
+
+    public void removeSongFromPlaylist(Playlist playlist, IndexSong indexSong) throws Exception {
+        logic.removeSongFromPlaylist(playlist, indexSong);
     }
 
     public void switchPlaylistOrder(Playlist playlist, int songPlacementId, int newPlacementId) throws MusicException {

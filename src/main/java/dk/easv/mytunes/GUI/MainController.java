@@ -325,15 +325,15 @@ public class MainController {
         IndexSong selectedIndexSong = tvSongsOnPlaylist.getSelectionModel().getSelectedItem();
 
         if (selectedPlaylist != null && selectedIndexSong != null && selectedIndexSong.getSong() != null) {
-            Song selectedSong = selectedIndexSong.getSong();
-
             if (conformationMassage("Remove Song",
-                    "Do you want to remove \"" + selectedSong.getTitle() +
+                    "Do you want to remove \"" + selectedIndexSong.getSong().getTitle() +
                             "\" from playlist \"" + selectedPlaylist.getName() + "\"?")) {
 
                 try {
-                    model.removeSongFromPlaylist(selectedPlaylist, selectedSong);
-                    model.displayPlaylist(selectedPlaylist); // Refresh the playlist view
+
+                    model.removeSongFromPlaylist(selectedPlaylist, selectedIndexSong);
+
+                    model.displayPlaylist(selectedPlaylist);
                 } catch (Exception e) {
                     displayError(e);
                 }
@@ -376,4 +376,50 @@ public class MainController {
             }
         }
     }
+
+    @FXML
+    private void onCloseApp(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exit MyTunes");
+        alert.setHeaderText("Are you sure you want to close the application?");
+        alert.setContentText("Any unsaved changes will be lost.");
+        alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.CANCEL);
+
+        if (alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.YES) {
+            // Close the stage (the main window)
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.close();
+        }
+    }
+
+    @FXML
+    private void onNextS(ActionEvent event) {
+        try {
+            Song next = model.getNextSong();
+            if (next != null) {
+                model.setCurrentlyPlayingSong(next);
+                lbDisplay.setText("Now playing: " + next.getTitle() + " - " + next.getArtist());
+            } else {
+                lbDisplay.setText("Reached end of playlist.");
+            }
+        } catch (Exception e) {
+            displayError(e);
+        }
+    }
+
+    @FXML
+    private void onPrevS(ActionEvent event) {
+        try {
+            Song prev = model.getPreviousSong();
+            if (prev != null) {
+                model.setCurrentlyPlayingSong(prev);
+                lbDisplay.setText("Now playing: " + prev.getTitle() + " - " + prev.getArtist());
+            } else {
+                lbDisplay.setText("At the start of the playlist.");
+            }
+        } catch (Exception e) {
+            displayError(e);
+        }
+    }
+
 }
