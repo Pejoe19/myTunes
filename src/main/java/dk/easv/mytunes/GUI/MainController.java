@@ -376,4 +376,20 @@ public class MainController {
             }
         }
     }
+
+    @FXML
+    private void onCloseApp(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exit MyTunes");
+        alert.setHeaderText("Are you sure you want to close the application?");
+        alert.setContentText("Any unsaved changes will be lost.");
+        alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.CANCEL);
+
+        if (alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.YES) {
+            // Close the stage (the main window)
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.close();
+        }
+    }
+
 }

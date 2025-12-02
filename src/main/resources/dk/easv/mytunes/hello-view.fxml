@@ -112,7 +112,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btnClose" layoutX="797.0" layoutY="616.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="54.0" text="Close">
+      <Button fx:id="btnClose" layoutX="797.0" layoutY="616.0" mnemonicParsing="false" onAction="#onCloseApp" prefHeight="30.0" prefWidth="54.0" text="Close">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
