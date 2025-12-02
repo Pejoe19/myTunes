@@ -52,7 +52,6 @@ public class SongController {
             int timeInSeconds = Integer.parseInt(timeParts[0]) * 60 + Integer.parseInt(timeParts[1]);
             Song song = new Song(editId, txtFTitle.getText(), txtFArtist.getText(), cbCategory.getValue().toString(), timeInSeconds, txtFFile.getText());
             parent.updateSong(song);
-            closeWindow(actionEvent);
         } else {
             // Create new song.
             String timeAsString = txtFTime.getText();
