@@ -20,20 +20,26 @@
       </Label>
       <HBox layoutX="55.0" layoutY="61.0" prefHeight="39.0" prefWidth="182.0" spacing="10.0" AnchorPane.leftAnchor="55.0" AnchorPane.rightAnchor="723.0">
          <children>
-            <Button fx:id="btnPrevS" maxHeight="40.0" maxWidth="40.0" onAction="#onPrevS" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 100;">
+            <Button fx:id="btnPrevS" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#onPrevS" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 100;">
                <graphic>
-                   <FontIcon iconColor="WHITE" iconLiteral="fas-angle-double-left" />
+                   <FontIcon iconColor="WHITE" iconLiteral="fas-angle-double-left" text="" />
                </graphic>
             </Button>
             <Button fx:id="btnPlay" contentDisplay="CENTER" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 100;" textAlignment="CENTER">
                <font>
                   <Font size="23.0" />
                </font>
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="fas-play" iconSize="7" />
+               </graphic>
             </Button>
-            <Button fx:id="btnNextS" mnemonicParsing="false" onAction="#onNextS" prefHeight="56.0" prefWidth="50.0" text="&gt;" />
+            <Button fx:id="btnNextS" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#onNextS" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 100;">
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="fas-angle-double-right" />
+               </graphic></Button>
          </children>
       </HBox>
-      <TableView fx:id="tvSongs" layoutX="458.0" layoutY="142.0" prefHeight="459.0" prefWidth="395.0">
+      <TableView fx:id="tvSongs" layoutX="533.0" layoutY="185.0" prefHeight="400.0" prefWidth="395.0">
         <columns>
           <TableColumn fx:id="tblCoTitle" prefWidth="144.80001831054688" text="Title" />
           <TableColumn fx:id="tblCoArtist" prefWidth="89.5999755859375" text="Artist" />
@@ -145,7 +151,7 @@
              <FontIcon iconColor="WHITE" iconLiteral="fas-trash" />
          </graphic>
       </Button>
-      <Button fx:id="btnClose" layoutX="887.0" layoutY="600.0" maxHeight="30.0" maxWidth="40.0" onAction="#onCloseApp" minHeight="30.0" minWidth="40.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="887.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="600.0">
+      <Button fx:id="btnClose" layoutX="887.0" layoutY="600.0" maxHeight="30.0" maxWidth="40.0" minHeight="30.0" minWidth="40.0" mnemonicParsing="false" onAction="#onCloseApp" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="887.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="600.0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
