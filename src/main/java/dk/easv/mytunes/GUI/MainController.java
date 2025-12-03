@@ -422,4 +422,11 @@ public class MainController {
         }
     }
 
+    public void onAddSongToPlaylist(ActionEvent actionEvent) {
+        if(selectedSong != null && selectedPlaylist != null){
+            model.addSongToPlaylist(selectedPlaylist, selectedSong);
+        } else {
+            showAlert("Please select a playlist and a song to add a song to the playlist.");
+        }
+    }
 }

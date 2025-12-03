@@ -2,21 +2,11 @@
     -fx-background-color: #5d6f89;
 }
 
-
-.toggle-button{
-    -fx-background-color: #595959;
-}
-
-.menuLeft, .button, .table-view, .table-view .column-header, .coloredElements, .toggle-button:selected {
+.button, .table-view, .table-view .column-header {
     -fx-background-color: #687c68;
 }
-.menuLeft .button {
-    -fx-background-color: rgba(255, 0, 0, 0);
-}
-.btnInventory{
-    -fx-border-radius: 30,0,30,0px;
-}
-.menuLeft .button:hover, .button:hover {
+
+.button:hover {
     -fx-background-color: #556855;
 }
 

@@ -74,7 +74,7 @@
           <TableColumn fx:id="tblCoPLTitle" prefWidth="207.20008850097656" text="Title" />
         </columns>
       </TableView>
-      <Button fx:id="btnAdd" layoutX="474.6" layoutY="182.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="32.0" textAlignment="CENTER" AnchorPane.leftAnchor="474.6" AnchorPane.rightAnchor="445.4">
+      <Button fx:id="btnAdd" layoutX="474.6" layoutY="182.0" mnemonicParsing="false" onAction="#onAddSongToPlaylist" prefHeight="27.0" prefWidth="32.0" textAlignment="CENTER" AnchorPane.leftAnchor="474.6" AnchorPane.rightAnchor="445.4">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>

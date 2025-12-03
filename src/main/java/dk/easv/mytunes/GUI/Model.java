@@ -189,4 +189,11 @@ public class Model {
         activePlaylist.remove(song);
         activePlaylist.add(newPlacementId, song);
     }
+
+    public void addSongToPlaylist(Playlist playlist, Song song) {
+        //IndexSong addedSong = logic.addSongToPlaylist();
+        //activePlaylist.add(addedSong);
+
+        activePlaylist.add(new IndexSong(song, song.getId()));
+    }
 }
