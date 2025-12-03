@@ -79,4 +79,31 @@ public class PlaylistsSongDAO {
             throw new MusicException("Could not move the song", ex);
         }
     }
+
+    public IndexSong addSongToPlaylist(Playlist playlist, Song song) throws Exception {
+        String sqlGetIndex = "SELECT ISNULL(MAX([Index]), 0) + 1 AS NextIndex FROM dbo.SongPlaylistRelation WHERE PlaylistId = ?";
+        String sqlInsert = "INSERT INTO dbo.SongPlaylistRelation (PlaylistId, SongId, [Index]) VALUES (?, ?, ?)";
+        try (Connection conn = DBConnector.getStaticConnection()) {
+            //Find next available index for this playlist
+            int nextIndex = 1;
+            try (PreparedStatement psIndex = conn.prepareStatement(sqlGetIndex)) {
+                psIndex.setInt(1, playlist.getId());
+                ResultSet rs = psIndex.executeQuery();
+                if (rs.next()) {
+                    nextIndex = rs.getInt("NextIndex");
+                }
+            }
+            // Insert the new song relation
+            try (PreparedStatement psInsert = conn.prepareStatement(sqlInsert)) {
+                psInsert.setInt(1, playlist.getId());
+                psInsert.setInt(2, song.getId());
+                psInsert.setInt(3, nextIndex);
+                psInsert.executeUpdate();
+            }
+            // Return the IndexSong object (so GUI can update instantly)
+            return new IndexSong(song, nextIndex);
+        } catch (Exception e) {
+            throw new Exception("Could not add song to playlist", e);
+        }
+    }
 }

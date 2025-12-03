@@ -58,4 +58,8 @@ public class Logic {
         public Song createSong(Song song) throws MusicException {
             return songData.createSong(song);
     }
+
+    public IndexSong addSongToPlaylist(Playlist playlist, Song song) throws Exception {
+        return playlistsSongData.addSongToPlaylist(playlist, song);
+    }
 }

@@ -191,9 +191,11 @@ public class Model {
     }
 
     public void addSongToPlaylist(Playlist playlist, Song song) {
-        //IndexSong addedSong = logic.addSongToPlaylist();
-        //activePlaylist.add(addedSong);
-
-        activePlaylist.add(new IndexSong(song, song.getId()));
+        try {
+            IndexSong addedSong = logic.addSongToPlaylist(playlist, song);
+            activePlaylist.add(addedSong);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
