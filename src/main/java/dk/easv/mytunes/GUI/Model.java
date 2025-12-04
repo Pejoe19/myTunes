@@ -198,4 +198,8 @@ public class Model {
             e.printStackTrace();
         }
     }
+
+    public void loadSongFile(Song song) throws Exception {
+        logic.loadSongFile(song);
+    }
 }

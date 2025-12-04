@@ -18,6 +18,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -49,6 +51,7 @@ public class MainController {
     private Song currentSong;
     private Playlist selectedPlaylist;
     private Model model;
+    private MediaPlayer mediaPlayer;
 
     {
         try {
@@ -314,6 +317,7 @@ public class MainController {
         if (selectedSong != null) {
             model.setCurrentlyPlayingSong(selectedSong);
             lbDisplay.setText("Now playing: " + selectedSong.getTitle() + " - " + selectedSong.getArtist());
+            playMedia(selectedSong);
         } else {
             lbDisplay.setText("No song selected to play.");
         }
@@ -418,6 +422,24 @@ public class MainController {
                 lbDisplay.setText("At the start of the playlist.");
             }
         } catch (Exception e) {
+            displayError(e);
+        }
+    }
+
+    private void playMedia(Song song) {
+        try {
+            model.loadSongFile(song);
+            if(selectedSong.getFile() != null){
+                if(mediaPlayer != null) {
+                    mediaPlayer.stop();
+                    mediaPlayer.dispose();
+                }
+                Media media = new Media(song.getFile().toURL().toString());
+                mediaPlayer = new MediaPlayer(media);
+                mediaPlayer.play();
+            }
+        }
+        catch (Exception e) {
             displayError(e);
         }
     }

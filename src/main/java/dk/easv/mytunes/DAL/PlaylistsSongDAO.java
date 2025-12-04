@@ -27,7 +27,7 @@ public class PlaylistsSongDAO {
             while (rs.next()) {
                 int index = rs.getInt("index");
                 int songId = rs.getInt("SongId");
-                Song placeholdersong = new Song(songId, "", "", "", 0, "");
+                Song placeholdersong = new Song(songId, "", "", "", 0);
                 IndexSong indexSong = new IndexSong(placeholdersong,index);
                 indexSongArrayList.add(indexSong);
             }

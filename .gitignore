@@ -38,3 +38,5 @@ Mac OS
 .DS_Store
 
 config/config.settings
+
+src/main/resources/temp/*

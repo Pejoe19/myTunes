@@ -6,8 +6,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+
+import java.io.File;
 
 public class SongController {
 
@@ -15,18 +19,48 @@ public class SongController {
     @FXML private TextField txtFArtist;
     @FXML private ComboBox cbCategory;
     @FXML private TextField txtFTime;
-    @FXML private TextField txtFFile;
+    @FXML private TextField txtFileDrop;
 
     private MainController parent;
     private boolean editMode = false;
     private int editId;
+    private File songFile;
+
+    public void initialize(){
+        txtFileDrop.setPromptText("Drop an MP3 or WAV file here");
+        txtFileDrop.setEditable(false);
+
+        txtFileDrop.setOnDragOver(event -> {
+            if (event.getGestureSource() != txtFileDrop && event.getDragboard().hasFiles()) {
+                event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+            }
+            event.consume();
+        });
+
+        txtFileDrop.setOnDragDropped(event -> {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+            if (db.hasFiles()) {
+                File file = db.getFiles().get(0);
+                    if (file != null) {
+                        String name = file.getName().toLowerCase();
+                    if (name.endsWith(".mp3") || name.endsWith(".wav")) {
+                        txtFileDrop.setText(file.getAbsolutePath());
+                        songFile = file;
+                        success = true;
+                    }
+                }
+            }
+            event.setDropCompleted(success);
+            event.consume();
+        });
+    }
 
     public void init(Song song) {
         if(editMode){
             txtFTitle.setText(song.getTitle());
             txtFArtist.setText(song.getArtist());
             cbCategory.setValue(song.getCategory());
-            txtFFile.setText(song.getFilePath());
             txtFTime.setText(song.getFormattedTime());
             editId = song.getId();
         }
@@ -50,7 +84,10 @@ public class SongController {
             String timeAsString = txtFTime.getText();
             String[] timeParts = timeAsString.split("\\.");
             int timeInSeconds = Integer.parseInt(timeParts[0]) * 60 + Integer.parseInt(timeParts[1]);
-            Song song = new Song(editId, txtFTitle.getText(), txtFArtist.getText(), cbCategory.getValue().toString(), timeInSeconds, txtFFile.getText());
+            Song song = new Song(editId, txtFTitle.getText(), txtFArtist.getText(), cbCategory.getValue().toString(), timeInSeconds);
+            if(songFile != null) {
+                song.setFile(songFile);
+            }
             parent.updateSong(song);
         } else {
             // Create new song.
@@ -62,9 +99,11 @@ public class SongController {
                     txtFTitle.getText(),
                     txtFArtist.getText(),
                     cbCategory.getValue().toString(),
-                    timeInSeconds,
-                    txtFFile.getText()
+                    timeInSeconds
             );
+            if(songFile != null) {
+                newSong.setFile(songFile);
+            }
             parent.createSong(newSong);
         }
         closeWindow(actionEvent);

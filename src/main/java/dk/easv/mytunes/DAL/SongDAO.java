@@ -3,6 +3,7 @@ package dk.easv.mytunes.DAL;
 import dk.easv.mytunes.Be.Song;
 import dk.easv.mytunes.BLL.MusicException;
 
+import java.io.*;
 import java.sql.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class SongDAO {
                 int time = localTime.toSecondOfDay();
                 String filePath = rs.getString("File");
 
-                songs.add(new Song(id, title, artist, category, time, filePath));
+                songs.add(new Song(id, title, artist, category, time));
             }
 
         } catch (Exception e) {
@@ -49,7 +50,7 @@ public class SongDAO {
         {
             PreparedStatement ps = conn.prepareStatement(
                     "UPDATE dbo.Songs " +
-                            "SET Title = ?, Artist = ?, Category = ?, Time = ? " +
+                            (song.getFile() != null ? "SET Title = ?, Artist = ?, Category = ?, Time = ?, [File] = ? ":"SET Title = ?, Artist = ?, Category = ?, Time = ? ") +
                             "WHERE Id = ?"
             );
 
@@ -65,13 +66,22 @@ public class SongDAO {
             String sqlString = String.format("%02d:%02d:%02d", hours, minutes, seconds);
 
             ps.setString(4, sqlString);
-            ps.setInt(5, song.getId());
+            if(song.getFile() != null) {
+                FileInputStream fileInputStream = new FileInputStream(song.getFile());
+                ps.setBinaryStream(5,fileInputStream);
+                ps.setInt(6, song.getId());
+            }
+            else {
+                ps.setInt(5, song.getId());
+            }
             ps.executeUpdate();
 
             return song;
 
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (SQLException | FileNotFoundException ex) {
+            if(ex.getClass().getName().equals(FileNotFoundException.class.getName())) {
+                throw new MusicException("something is wrong with the song file", ex);
+            }
             throw new MusicException("Could not update the song in the database");
         }
     }
@@ -98,7 +108,11 @@ public class SongDAO {
         }
     }
     public Song createSong(Song song) throws MusicException {
-        String sql = "INSERT INTO dbo.Songs (Title, Artist, Category, Time) VALUES (?, ?, ?, ?)";
+        String sql;
+        if(song.getFile() != null)
+            sql = "INSERT INTO dbo.Songs (Title, Artist, Category, Time, [File]) VALUES (?, ?, ?, ?, ?)";
+        else
+            sql = "INSERT INTO dbo.Songs (Title, Artist, Category, Time) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = dbConnector.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -114,7 +128,10 @@ public class SongDAO {
             ps.setString(2, song.getArtist());
             ps.setString(3, song.getCategory());
             ps.setTime(4, Time.valueOf(formattedTime));
-            //ps.setString(5, null);
+            if(song.getFile() != null) {
+                FileInputStream fileInputStream = new FileInputStream(song.getFile());
+                ps.setBinaryStream(5,fileInputStream);
+            }
 
             ps.executeUpdate();
 
@@ -122,13 +139,50 @@ public class SongDAO {
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 int newId = rs.getInt(1);
-                return new Song(newId, song.getTitle(), song.getArtist(), song.getCategory(), song.getTime(), song.getFilePath());
+                return new Song(newId, song.getTitle(), song.getArtist(), song.getCategory(), song.getTime());
             } else {
                 throw new MusicException("Creating song failed: No ID returned.");
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException | FileNotFoundException e) {
+            if(e.getClass().getName().equals(FileNotFoundException.class.getName())) {
+                throw new MusicException("something is wrong with the song file", e);
+            }
             throw new MusicException("Could not create song in the database", e);
+        }
+    }
+
+    public void lodeSongFile(Song song) throws Exception {
+        String SQL = "select [File] from Songs where id = ?";
+        try(Connection conn = DBConnector.getStaticConnection()) {
+            PreparedStatement stmt = conn.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+            stmt.setInt(1, song.getId());
+            stmt.executeQuery();
+            ResultSet rs = stmt.getResultSet();
+            if(rs.next()) {
+                File songFile = new File("src/main/resources/temp/"+song.getTitle().replaceAll(" ","_"));
+                InputStream inputStream = rs.getBinaryStream("file");
+                if(inputStream != null) {
+                    try(OutputStream outputStream = new FileOutputStream(songFile)) {
+                        byte[] buffer = new byte[4096];
+                        int bytesRead;
+
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, bytesRead);
+                        }
+                        song.setFile(songFile);
+                    }
+                    catch (Exception e) {
+                        throw new Exception("something has gone wrong when reading the file from database");
+                    }
+                }
+
+
+            }
+
+        }
+        catch (Exception e) {
+            throw new Exception("something has gone wrong when getting the file from DataBase");
         }
     }
 }

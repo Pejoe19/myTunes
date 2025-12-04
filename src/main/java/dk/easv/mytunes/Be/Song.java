@@ -1,28 +1,28 @@
 package dk.easv.mytunes.Be;
 
+import java.io.File;
+
 public class Song {
     private int id;
     private String title;
     private String artist;
     private String category;
     private int time; // seconds
-    private String filePath;
+    private File file;
 
-    public Song(int id, String title, String artist, String category, int time, String filePath) {
+    public Song(int id, String title, String artist, String category, int time) {
         this.id = id;
         this.title = title;
         this.artist = artist;
         this.category = category;
         this.time = time;
-        this.filePath = filePath;
     }
 
-    public Song(String title, String artist, String category, int time, String filePath) {
+    public Song(String title, String artist, String category, int time) {
         this.title = title;
         this.artist = artist;
         this.category = category;
         this.time = time;
-        this.filePath = filePath;
     }
 
     public String getFormattedTime() {
@@ -71,11 +71,9 @@ public class Song {
         this.time = time;
     }
 
-    public String getFilePath() {
-        return filePath;
-    }
+    public File getFile() { return file; }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
+    public void setFile(File file) { this.file = file; }
+
+
 }

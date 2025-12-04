@@ -62,4 +62,8 @@ public class Logic {
     public IndexSong addSongToPlaylist(Playlist playlist, Song song) throws Exception {
         return playlistsSongData.addSongToPlaylist(playlist, song);
     }
+
+    public void loadSongFile(Song song) throws Exception {
+        songData.lodeSongFile(song);
+    }
 }
