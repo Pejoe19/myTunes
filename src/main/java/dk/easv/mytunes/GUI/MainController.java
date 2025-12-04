@@ -403,6 +403,7 @@ public class MainController {
             if (next != null) {
                 model.setCurrentlyPlayingSong(next);
                 lbDisplay.setText("Now playing: " + next.getTitle() + " - " + next.getArtist());
+                playMedia(next);
             } else {
                 lbDisplay.setText("Reached end of playlist.");
             }
@@ -418,6 +419,7 @@ public class MainController {
             if (prev != null) {
                 model.setCurrentlyPlayingSong(prev);
                 lbDisplay.setText("Now playing: " + prev.getTitle() + " - " + prev.getArtist());
+                playMedia(prev);
             } else {
                 lbDisplay.setText("At the start of the playlist.");
             }
@@ -437,6 +439,10 @@ public class MainController {
                 Media media = new Media(song.getFile().toURL().toString());
                 mediaPlayer = new MediaPlayer(media);
                 mediaPlayer.play();
+                mediaPlayer.setOnEndOfMedia(() ->{ onNextS(new ActionEvent());});
+            }
+            else {
+                onNextS(new ActionEvent());
             }
         }
         catch (Exception e) {
