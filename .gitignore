@@ -40,3 +40,4 @@ Mac OS
 config/config.settings
 
 src/main/resources/temp/*
+src/main/resources/temp/!.gitignore
