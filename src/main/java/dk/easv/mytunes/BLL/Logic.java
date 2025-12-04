@@ -15,6 +15,7 @@ public class Logic {
     private final SongDAO songData = new SongDAO();
     private final PlaylistDAO playlistData = new PlaylistDAO();
     private final PlaylistsSongDAO playlistsSongData = new PlaylistsSongDAO();
+    private final MusicManager musicManager = new MusicManager();
 
     public Logic() throws MusicException {
     }
@@ -65,5 +66,17 @@ public class Logic {
 
     public void loadSongFile(Song song) throws Exception {
         songData.lodeSongFile(song);
+    }
+
+    public boolean getMute() {
+        return musicManager.isMuted();
+    }
+
+    public boolean toogleMute() {
+        return musicManager.toogleMute();
+    }
+
+    public void setVolume(Number newValue) {
+        musicManager.setVolume((double) newValue);
     }
 }

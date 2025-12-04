@@ -5,6 +5,8 @@ import dk.easv.mytunes.Be.IndexSong;
 import dk.easv.mytunes.Be.Playlist;
 import dk.easv.mytunes.Be.Song;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
@@ -22,6 +24,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -29,6 +32,8 @@ import java.util.Optional;
 
 public class MainController {
 
+    @FXML private FontIcon iconMute;
+    @FXML private Slider sliderVolume;
     @FXML private Button btnDeleteSong;
     @FXML private TableView<Playlist> TvPlaylists;
     @FXML private Button btnEditSong;
@@ -88,6 +93,14 @@ public class MainController {
                 selectedSong = newValue.getSong();
 
                 tvSongs.getSelectionModel().clearSelection();
+            }
+        });
+
+        sliderVolume.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double newVolume = (double) newValue/100;
+                setVolume(newVolume);
             }
         });
     }
@@ -456,5 +469,22 @@ public class MainController {
         } else {
             showAlert("Please select a playlist and a song to add a song to the playlist.");
         }
+    }
+
+    private void setVolume(Number newValue) {
+        if(mediaPlayer != null) {
+            mediaPlayer.setVolume((Double) newValue);
+            model.setVolume(newValue);
+        }
+    }
+
+    @FXML private void onMute(ActionEvent actionEvent) {
+        if(mediaPlayer != null){
+            mediaPlayer.setMute(model.toogleMute());
+        }
+        if(model.getMute())
+            iconMute.setIconLiteral("fas-volume-mute");
+        else
+            iconMute.setIconLiteral("fas-volume-up");
     }
 }

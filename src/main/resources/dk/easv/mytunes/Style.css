@@ -21,3 +21,11 @@
 .table-row-cell .text {
     -fx-fill: black;
 }
+
+.btnMute {
+    -fx-background-color: none;
+}
+
+.btnMute:hover {
+    -fx-background-color: #eaeaea;
+}

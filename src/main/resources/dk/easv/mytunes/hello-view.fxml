@@ -185,10 +185,10 @@
             <FontIcon iconColor="WHITE" iconLiteral="fas-trash" />
          </graphic>
       </Button>
-      <Slider layoutX="87.0" layoutY="108.0" prefHeight="24.0" prefWidth="117.0" />
-      <Button layoutX="47.0" layoutY="107.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: none;">
+      <Slider fx:id="sliderVolume" layoutX="87.0" layoutY="108.0" prefHeight="24.0" prefWidth="117.0" value="30.0" />
+      <Button layoutX="47.0" layoutY="107.0" mnemonicParsing="false" onAction="#onMute" prefHeight="25.0" prefWidth="25.0" styleClass="btnMute">
          <graphic>
-            <FontIcon iconLiteral="fas-volume-up" />
+            <FontIcon fx:id="iconMute" iconLiteral="fas-volume-up" text="" />
          </graphic>
       </Button>
 

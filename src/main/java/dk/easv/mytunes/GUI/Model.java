@@ -202,4 +202,16 @@ public class Model {
     public void loadSongFile(Song song) throws Exception {
         logic.loadSongFile(song);
     }
+
+    public boolean getMute() {
+        return logic.getMute();
+    }
+
+    public boolean toogleMute() {
+        return logic.toogleMute();
+    }
+
+    public void setVolume(Number newValue) {
+        logic.setVolume(newValue);
+    }
 }
