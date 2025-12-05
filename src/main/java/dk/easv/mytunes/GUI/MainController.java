@@ -20,14 +20,12 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
-import java.util.Locale;
 import java.util.Optional;
 
 public class MainController {
@@ -99,8 +97,7 @@ public class MainController {
         sliderVolume.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                double newVolume = (double) newValue/100;
-                setVolume(newVolume);
+                model.setVolume((double) newValue/100);
             }
         });
     }
@@ -445,13 +442,8 @@ public class MainController {
         try {
             model.loadSongFile(song);
             if(selectedSong.getFile() != null){
-                if(mediaPlayer != null) {
-                    mediaPlayer.stop();
-                    mediaPlayer.dispose();
-                }
-                Media media = new Media(song.getFile().toURL().toString());
-                mediaPlayer = new MediaPlayer(media);
-                mediaPlayer.play();
+                model.stopMedia();
+                model.playMedia(song);
                 mediaPlayer.setOnEndOfMedia(() ->{ onNextS(new ActionEvent());});
             }
             else {
@@ -471,20 +463,11 @@ public class MainController {
         }
     }
 
-    private void setVolume(Number newValue) {
-        if(mediaPlayer != null) {
-            mediaPlayer.setVolume((Double) newValue);
-            model.setVolume(newValue);
-        }
-    }
-
     @FXML private void onMute(ActionEvent actionEvent) {
-        if(mediaPlayer != null){
-            mediaPlayer.setMute(model.toogleMute());
-        }
-        if(model.getMute())
-            iconMute.setIconLiteral("fas-volume-mute");
-        else
+        if(model.isMuted())
             iconMute.setIconLiteral("fas-volume-up");
+        else
+            iconMute.setIconLiteral("fas-volume-mute");
+        model.toogleMute();
     }
 }

@@ -152,7 +152,7 @@ public class SongDAO {
         }
     }
 
-    public void lodeSongFile(Song song) throws Exception {
+    public void loadSongFile(Song song) throws Exception {
         String SQL = "select [File] from Songs where id = ?";
         try(Connection conn = DBConnector.getStaticConnection()) {
             PreparedStatement stmt = conn.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);

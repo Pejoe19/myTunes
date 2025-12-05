@@ -7,6 +7,7 @@ import dk.easv.mytunes.DAL.PlaylistDAO;
 import dk.easv.mytunes.DAL.PlaylistsSongDAO;
 import dk.easv.mytunes.DAL.SongDAO;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,18 +66,28 @@ public class Logic {
     }
 
     public void loadSongFile(Song song) throws Exception {
-        songData.lodeSongFile(song);
+        songData.loadSongFile(song);
     }
 
-    public boolean getMute() {
+    public void playMedia(Song song) throws MalformedURLException {
+        musicManager.playMedia(song);
+    }
+
+    public boolean isMuted() {
         return musicManager.isMuted();
     }
 
-    public boolean toogleMute() {
-        return musicManager.toogleMute();
+    public void toogleMute() {
+        musicManager.toogleMute();
     }
 
     public void setVolume(Number newValue) {
-        musicManager.setVolume((double) newValue);
+        if(musicManager.getMediaPlayer() != null) {
+            musicManager.setVolume((Double) newValue);
+        }
+    }
+
+    public void stopMedia() {
+        musicManager.stopMedia();
     }
 }

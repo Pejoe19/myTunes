@@ -9,8 +9,8 @@ import dk.easv.mytunes.DAL.PlaylistDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Model {
 
@@ -203,15 +203,23 @@ public class Model {
         logic.loadSongFile(song);
     }
 
-    public boolean getMute() {
-        return logic.getMute();
+    public void playMedia(Song song) throws MalformedURLException {
+        logic.playMedia(song);
     }
 
-    public boolean toogleMute() {
-        return logic.toogleMute();
+    public boolean isMuted() {
+        return logic.isMuted();
+    }
+
+    public void toogleMute() {
+        logic.toogleMute();
     }
 
     public void setVolume(Number newValue) {
         logic.setVolume(newValue);
+    }
+
+    public void stopMedia() {
+        logic.stopMedia();
     }
 }
