@@ -32,7 +32,7 @@ public class MainController {
     @FXML private FontIcon iconMute;
     @FXML private Slider sliderVolume;
     @FXML private Button btnDeleteSong;
-    @FXML private TableView<Playlist> TvPlaylists;
+    @FXML private TableView<Playlist> tvPlaylists;
     @FXML private Button btnEditSong;
     @FXML private TableColumn tblCoPLName;
     @FXML private TableColumn tblCoPLSongs;
@@ -135,11 +135,11 @@ public class MainController {
         tblCoPLTime.setCellValueFactory(new PropertyValueFactory<>("formattedTime"));
         try {
             // Gets the data from model
-            TvPlaylists.setItems(model.loadPlaylists());
+            tvPlaylists.setItems(model.loadPlaylists());
         } catch (MusicException e) {
             displayError(e);
         }
-        TvPlaylists.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) ->{
+        tvPlaylists.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) ->{
             if(newValue != null) {
                 try{
                     selectedPlaylist = newValue;
@@ -218,7 +218,7 @@ public class MainController {
 
     @FXML
     private void onDeletePlaylist(ActionEvent actionEvent) {
-        Playlist playlist = TvPlaylists.getSelectionModel().getSelectedItem();
+        Playlist playlist = tvPlaylists.getSelectionModel().getSelectedItem();
         if(playlist != null) {
             if(conformationMassage("conformation massage", "do you want to delete playlist "+playlist.getName())){
                 try{
@@ -276,7 +276,7 @@ public class MainController {
 
     @FXML
     private void onEditPlaylist(ActionEvent actionEvent) {
-        Playlist selected = TvPlaylists.getSelectionModel().getSelectedItem();
+        Playlist selected = tvPlaylists.getSelectionModel().getSelectedItem();
         if (selected == null) {
             showAlert("Please select a playlist to edit.");
             return;
@@ -333,7 +333,7 @@ public class MainController {
 
     @FXML
     private void onClickPLSDelete() {
-        Playlist selectedPlaylist = TvPlaylists.getSelectionModel().getSelectedItem();
+        Playlist selectedPlaylist = tvPlaylists.getSelectionModel().getSelectedItem();
         IndexSong selectedIndexSong = tvSongsOnPlaylist.getSelectionModel().getSelectedItem();
 
         if (selectedPlaylist != null && selectedIndexSong != null && selectedIndexSong.getSong() != null) {
@@ -459,5 +459,50 @@ public class MainController {
         else
             iconMute.setIconLiteral("fas-volume-mute");
         model.toogleMute();
+    }
+
+    public void onNewPlaylist(ActionEvent actionEvent) {
+        try {
+            openPlaylistWindow("new", null, actionEvent);
+        } catch (MusicException | IOException e) {
+            displayError(e);
+        }
+    }
+
+    public void openPlaylistWindow(String windowType, Playlist playlist, ActionEvent actionEvent) throws MusicException, IOException {
+        // Loads the new fxml file
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/dk/easv/mytunes/NewEditPlaylist.fxml"));
+        Scene scene = new Scene(loader.load());
+
+        // Set this controller as a parent controller for the new controller
+        PlaylistController playlistController = loader.getController();
+        playlistController.setParent(this);
+
+        // If the window is used to edit a song, then setup editmode and load the data for the song
+        if (windowType.equals("edit") && playlist != null){
+            playlistController.setEditMode();
+            playlistController.init(playlist);
+        }
+
+        Stage stage = new Stage();
+        stage.setScene(scene);
+
+        // Locks the old window while the new window is open
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
+        stage.setResizable(false);
+
+        stage.show();
+    }
+
+    public void createPlaylist(Playlist playlist) {
+        try {
+            model.createPlaylist(playlist);
+            loadPlaylists();
+            tvPlaylists.getSelectionModel().selectLast();
+        } catch (Exception e) {
+            displayError(e);
+        }
     }
 }

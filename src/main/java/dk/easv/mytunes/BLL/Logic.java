@@ -87,4 +87,7 @@ public class Logic {
         }
     }
 
+    public Playlist createPlaylist(Playlist playlist) throws MusicException {
+        return playlistData.createPlaylist(playlist);
+    }
 }

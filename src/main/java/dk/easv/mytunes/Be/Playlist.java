@@ -13,6 +13,11 @@ public class Playlist {
     private int playTime = 0; //seconds
     private String formattedTime;
 
+    public Playlist(String name) {
+        this.name = name;
+        songList = new ArrayList<>();
+    }
+
     public Playlist(int id, String name) {
         this.id = id;
         this.name = name;

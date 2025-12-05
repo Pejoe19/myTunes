@@ -4,6 +4,8 @@ import dk.easv.mytunes.BLL.MusicException;
 import dk.easv.mytunes.Be.Playlist;
 import dk.easv.mytunes.Be.Song;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,4 +87,26 @@ public class PlaylistDAO {
         }
     }
 
+    public Playlist createPlaylist(Playlist playlist) throws MusicException {
+        String sql;
+            sql = "INSERT INTO dbo.Playlists (Name) VALUES (?)";
+
+        try (Connection conn = dbConnector.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            ps.setString(1, playlist.getName());
+            ps.executeUpdate();
+
+            // Get generated ID
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                int newId = rs.getInt(1);
+                return new Playlist(newId, playlist.getName());
+            } else {
+                throw new MusicException("Creating playlist failed: No ID returned.");
+            }
+        } catch (SQLException e) {
+            throw new MusicException("Could not create playlist in the database", e);
+        }
+    }
 }

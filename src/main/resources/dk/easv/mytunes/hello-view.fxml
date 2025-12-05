@@ -57,7 +57,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <TableView fx:id="TvPlaylists" layoutX="32.0" layoutY="184.0" prefHeight="400.0" prefWidth="210.0">
+      <TableView fx:id="tvPlaylists" layoutX="32.0" layoutY="184.0" prefHeight="400.0" prefWidth="210.0">
         <columns>
           <TableColumn fx:id="tblCoPLName" prefWidth="92.80001831054688" text="Name" />
           <TableColumn fx:id="tblCoPLSongs" prefWidth="57.59996795654297" text="Songs" />
@@ -82,7 +82,7 @@
             <FontIcon iconColor="WHITE" iconLiteral="fas-arrow-left" />
          </graphic>
       </Button>
-      <Button fx:id="btnNewPL" layoutX="31.4" layoutY="598.4" maxHeight="30.0" maxWidth="40.0" minHeight="30.0" minWidth="40.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="31.4" AnchorPane.rightAnchor="890.2" AnchorPane.topAnchor="600.0">
+      <Button fx:id="btnNewPL" layoutX="31.4" layoutY="598.4" maxHeight="30.0" maxWidth="40.0" minHeight="30.0" minWidth="40.0" mnemonicParsing="false" onAction="#onNewPlaylist" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="31.4" AnchorPane.rightAnchor="890.2" AnchorPane.topAnchor="600.0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

@@ -225,4 +225,8 @@ public class Model {
         logic.setVolume(newValue);
     }
 
+    public void createPlaylist(Playlist playlist) throws MusicException {
+        Playlist created = logic.createPlaylist(playlist);
+        playlists.add(created);
+    }
 }
