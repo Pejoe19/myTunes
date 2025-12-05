@@ -24,6 +24,7 @@ public class MusicManager {
         Media media = new Media(song.getFile().toURL().toString());
         mediaPlayer = new MediaPlayer(media);
         setVolume(volume);
+        mediaPlayer.setMute(isMuted());
         mediaPlayer.play();
         mediaPlayer.setOnEndOfMedia(onMediaEnd);
     }
