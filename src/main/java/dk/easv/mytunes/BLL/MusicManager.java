@@ -23,6 +23,7 @@ public class MusicManager {
         }
         Media media = new Media(song.getFile().toURL().toString());
         mediaPlayer = new MediaPlayer(media);
+        setVolume(volume);
         mediaPlayer.play();
         mediaPlayer.setOnEndOfMedia(onMediaEnd);
     }
