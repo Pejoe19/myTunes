@@ -20,7 +20,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -54,7 +53,6 @@ public class MainController {
     private Song currentSong;
     private Playlist selectedPlaylist;
     private Model model;
-    private MediaPlayer mediaPlayer;
 
     {
         try {
@@ -440,15 +438,7 @@ public class MainController {
 
     private void playMedia(Song song) {
         try {
-            model.loadSongFile(song);
-            if(selectedSong.getFile() != null){
-                model.stopMedia();
-                model.playMedia(song);
-                mediaPlayer.setOnEndOfMedia(() ->{ onNextS(new ActionEvent());});
-            }
-            else {
-                onNextS(new ActionEvent());
-            }
+            model.loadAndPlayMedia(song, () -> onNextS(new ActionEvent()));
         }
         catch (Exception e) {
             displayError(e);

@@ -199,12 +199,18 @@ public class Model {
         }
     }
 
-    public void loadSongFile(Song song) throws Exception {
-        logic.loadSongFile(song);
+    public void loadAndPlayMedia (Song song, Runnable onMediaEnd) throws Exception {
+        loadSongFile(song);
+        if(song.getFile() != null) {
+            logic.playMedia(song, onMediaEnd);
+        }
+        else {
+            onMediaEnd.run();
+        }
     }
 
-    public void playMedia(Song song) throws MalformedURLException {
-        logic.playMedia(song);
+    public void loadSongFile(Song song) throws Exception {
+        logic.loadSongFile(song);
     }
 
     public boolean isMuted() {
@@ -219,7 +225,4 @@ public class Model {
         logic.setVolume(newValue);
     }
 
-    public void stopMedia() {
-        logic.stopMedia();
-    }
 }

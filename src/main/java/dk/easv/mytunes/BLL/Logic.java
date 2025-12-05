@@ -69,8 +69,8 @@ public class Logic {
         songData.loadSongFile(song);
     }
 
-    public void playMedia(Song song) throws MalformedURLException {
-        musicManager.playMedia(song);
+    public void playMedia(Song song, Runnable onMediaEnd) throws MalformedURLException {
+        musicManager.playMedia(song, onMediaEnd);
     }
 
     public boolean isMuted() {
@@ -87,7 +87,4 @@ public class Logic {
         }
     }
 
-    public void stopMedia() {
-        musicManager.stopMedia();
-    }
 }

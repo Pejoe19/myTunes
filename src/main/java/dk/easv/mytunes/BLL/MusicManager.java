@@ -16,10 +16,15 @@ public class MusicManager {
         this.isMuted = false;
     }
 
-    public void playMedia(Song song) throws MalformedURLException {
+    public void playMedia(Song song, Runnable onMediaEnd) throws MalformedURLException {
+        if(mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.dispose();
+        }
         Media media = new Media(song.getFile().toURL().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
+        mediaPlayer.setOnEndOfMedia(onMediaEnd);
     }
 
     public MediaPlayer getMediaPlayer() {
@@ -42,12 +47,6 @@ public class MusicManager {
         }
     }
 
-    public void stopMedia() {
-        if(mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.dispose();
-        }
-    }
 
     @Override
     public String toString() {
