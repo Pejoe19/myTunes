@@ -164,12 +164,12 @@
             <Font size="18.0" />
          </font>
       </TextField>
-      <Button fx:id="btnSearch" layoutX="888.0" layoutY="64.0" minWidth="40.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="557.0" AnchorPane.leftAnchor="888.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="64.0">
+      <Button fx:id="btnSearch" layoutX="888.0" layoutY="64.0" minWidth="40.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="40.0" onAction="#onClearSearch" AnchorPane.bottomAnchor="557.0" AnchorPane.leftAnchor="888.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="64.0">
          <font>
             <Font name="System Bold" size="10.0" />
          </font>
          <graphic>
-            <FontIcon iconColor="WHITE" iconLiteral="fas-search" />
+            <FontIcon iconColor="WHITE" iconLiteral="fas-hashtag" />
          </graphic>
       </Button>
       <Label fx:id="lbFilter" alignment="BOTTOM_LEFT" layoutX="667.0" layoutY="65.0" prefHeight="30.0" prefWidth="54.0" text="Filter:">

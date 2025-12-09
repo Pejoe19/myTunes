@@ -505,4 +505,9 @@ public class MainController {
             displayError(e);
         }
     }
+
+    @FXML
+    private void onClearSearch(ActionEvent actionEvent) {
+        txfFilterSearchBar.textProperty().set("");
+    }
 }
