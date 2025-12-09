@@ -49,7 +49,6 @@ public class MusicManager {
         }
     }
 
-
     @Override
     public String toString() {
         return "SoundManager{" +

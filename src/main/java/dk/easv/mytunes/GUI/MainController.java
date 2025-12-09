@@ -281,7 +281,6 @@ public class MainController {
             showAlert("Please select a playlist to edit.");
             return;
         }
-
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/dk/easv/mytunes/NewEditPlaylist.fxml"));
             Scene scene = new Scene(loader.load());
@@ -335,17 +334,14 @@ public class MainController {
     private void onClickPLSDelete() {
         Playlist selectedPlaylist = tvPlaylists.getSelectionModel().getSelectedItem();
         IndexSong selectedIndexSong = tvSongsOnPlaylist.getSelectionModel().getSelectedItem();
-
         if (selectedPlaylist != null && selectedIndexSong != null && selectedIndexSong.getSong() != null) {
             if (conformationMassage("Remove Song",
                     "Do you want to remove \"" + selectedIndexSong.getSong().getTitle() +
                             "\" from playlist \"" + selectedPlaylist.getName() + "\"?")) {
-
                 try {
-
                     model.removeSongFromPlaylist(selectedPlaylist, selectedIndexSong);
-
                     model.displayPlaylist(selectedPlaylist);
+                    refreshPlaylistStats(selectedPlaylist);
                 } catch (Exception e) {
                     displayError(e);
                 }
@@ -446,8 +442,16 @@ public class MainController {
     }
 
     public void onAddSongToPlaylist(ActionEvent actionEvent) {
-        if(selectedSong != null && selectedPlaylist != null){
-            model.addSongToPlaylist(selectedPlaylist, selectedSong);
+        if (selectedSong != null && selectedPlaylist != null) {
+            try {
+                // Add song to the playlist
+                model.addSongToPlaylist(selectedPlaylist, selectedSong);
+                // Refresh the playlist songs and stats
+                model.displayPlaylist(selectedPlaylist);
+                refreshPlaylistStats(selectedPlaylist);
+            } catch (Exception e) {
+                displayError(e);
+            }
         } else {
             showAlert("Please select a playlist and a song to add a song to the playlist.");
         }
@@ -509,5 +513,19 @@ public class MainController {
     @FXML
     private void onClearSearch(ActionEvent actionEvent) {
         txfFilterSearchBar.textProperty().set("");
+    }
+
+    private void refreshPlaylistStats(Playlist playlist) {
+        if (playlist != null) {
+            playlist.setNumberOfSongs(playlist.getSongList().size());
+
+            int totalTime = playlist.getSongList().stream()
+                    .mapToInt(indexSong -> indexSong.getSong().getTime())
+                    .sum();
+            playlist.setPlayTime(totalTime);
+
+            // Refresh the playlists table so UI updates immediately
+            tvPlaylists.refresh();
+        }
     }
 }
