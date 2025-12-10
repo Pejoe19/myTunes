@@ -22,7 +22,7 @@ public class SongDAO {
         try (Connection conn = dbConnector.getConnection();
              Statement stmt = conn.createStatement()) {
 
-            String sql = "SELECT * FROM Songs";
+            String sql = "SELECT Id, Title, Artist, Category, Time FROM Songs";
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
@@ -32,7 +32,6 @@ public class SongDAO {
                 String category = rs.getString("Category");
                 LocalTime localTime = rs.getTime("Time").toLocalTime();
                 int time = localTime.toSecondOfDay();
-                String filePath = rs.getString("File");
 
                 songs.add(new Song(id, title, artist, category, time));
             }
