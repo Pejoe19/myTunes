@@ -12,6 +12,8 @@ import java.util.Properties;
 
 
 public class DBConnector {
+
+    // Instance variables
     private static final String PROP_FILE = "config/config.settings";
     private SQLServerDataSource dataSource;
 

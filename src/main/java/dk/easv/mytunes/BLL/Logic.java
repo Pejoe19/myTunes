@@ -13,6 +13,7 @@ import java.util.List;
 
 public class Logic {
 
+    // Instance variables
     private final SongDAO songData = new SongDAO();
     private final PlaylistDAO playlistData = new PlaylistDAO();
     private final PlaylistsSongDAO playlistsSongData = new PlaylistsSongDAO();

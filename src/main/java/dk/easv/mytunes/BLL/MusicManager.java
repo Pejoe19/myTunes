@@ -7,6 +7,8 @@ import javafx.scene.media.MediaPlayer;
 import java.net.MalformedURLException;
 
 public class MusicManager {
+
+    // Instance variables
     private MediaPlayer mediaPlayer;
     private double volume;
     private boolean isMuted;

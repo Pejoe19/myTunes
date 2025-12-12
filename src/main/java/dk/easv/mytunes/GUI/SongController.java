@@ -1,36 +1,48 @@
 package dk.easv.mytunes.GUI;
 
 import dk.easv.mytunes.Be.Song;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.Media;
+import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 public class SongController {
 
+    @FXML private Label lbWindowTitle;
+    @FXML private Button btnBrowse;
+    @FXML private Text txtErrorTitle;
+    @FXML private Text txtErrorArtist;
+    @FXML private Text txtErrorCategory;
+    @FXML private Text txtErrorFile;
+    @FXML private Text txtErrorLength;
     @FXML private TextField txtFTitle;
     @FXML private TextField txtFArtist;
     @FXML private ComboBox cbCategory;
     @FXML private TextField txtFTime;
     @FXML private TextField txtFileDrop;
 
+    // Instance variables
     private MainController parent;
     private boolean editMode = false;
     private int editId;
     private File songFile;
 
     public void initialize() {
-        txtFileDrop.setPromptText("Drop an MP3 or WAV file here");
-        txtFileDrop.setEditable(false);
+        generateCategories();
 
         txtFileDrop.setOnDragOver(event -> {
             if (event.getGestureSource() != txtFileDrop && event.getDragboard().hasFiles()) {
@@ -60,6 +72,20 @@ public class SongController {
         });
     }
 
+    private void generateCategories() {
+        List<String> defaultCategories = Arrays.asList("","Pop","Rock","Classic","Dance","Blues","Rap");
+        cbCategory.getItems().addAll(defaultCategories);
+    }
+
+    public void setupWindowMode() {
+        if(editMode) {
+            lbWindowTitle.setText("Edit Song");
+            btnBrowse.setDisable(true);
+            txtFileDrop.setDisable(true);
+            txtFTime.setDisable(true);
+        }
+    }
+
 
     public void init(Song song) {
         if(editMode){
@@ -84,41 +110,79 @@ public class SongController {
     }
 
     public void onSave(ActionEvent actionEvent) {
-        if(editMode){
-            // Edit Mode.
+        if(checkDataValidation()){
             String timeAsString = txtFTime.getText();
             String[] timeParts = timeAsString.split("\\.");
             int timeInSeconds = Integer.parseInt(timeParts[0]) * 60 + Integer.parseInt(timeParts[1]);
-            Song song = new Song(editId, txtFTitle.getText(), txtFArtist.getText(), cbCategory.getValue().toString(), timeInSeconds);
-            if(songFile != null) {
-                song.setFile(songFile);
+            Song song;
+            if(editMode){
+                // Edit Mode.
+                song = new Song(
+                        editId,
+                        txtFTitle.getText(),
+                        txtFArtist.getText(),
+                        cbCategory.getValue().toString(),
+                        songFile,
+                        timeInSeconds);
+                parent.updateSong(song);
+            } else {
+                // Create new song.
+                song = new Song(
+                        txtFTitle.getText(),
+                        txtFArtist.getText(),
+                        cbCategory.getValue().toString(),
+                        songFile,
+                        timeInSeconds
+                );
+                parent.createSong(song);
             }
-            parent.updateSong(song);
-        } else {
-            // Create new song.
-            String timeAsString = txtFTime.getText();
-            String[] timeParts = timeAsString.split("\\.");
-            int timeInSeconds = Integer.parseInt(timeParts[0]) * 60 + Integer.parseInt(timeParts[1]);
-
-            Song newSong = new Song(
-                    txtFTitle.getText(),
-                    txtFArtist.getText(),
-                    cbCategory.getValue().toString(),
-                    timeInSeconds
-            );
-            if(songFile != null) {
-                newSong.setFile(songFile);
-            }
-            parent.createSong(newSong);
+            closeWindow(actionEvent);
         }
-        closeWindow(actionEvent);
+    }
+
+    private boolean checkDataValidation() {
+        boolean valid = true;
+
+        boolean isTitleValid = validateField(txtFTitle.getText());
+        txtErrorTitle.setVisible(!isTitleValid);
+        valid &= isTitleValid;
+
+        boolean isArtistValid = validateField(txtFArtist.getText());
+        txtErrorArtist.setVisible(!isArtistValid);
+        valid &= isArtistValid;
+
+        boolean isCategoryValid = cbCategory.getValue() != null && validateField(cbCategory.getValue().toString());
+        txtErrorCategory.setVisible(!isCategoryValid);
+        valid &= isCategoryValid;
+
+        boolean isTimeValid = validateField(txtFTime.getText());
+        txtErrorLength.setVisible(!isTimeValid);
+        valid &= isTimeValid;
+
+        boolean isFileValid = editMode || validateField(txtFileDrop.getText());
+        txtErrorFile.setVisible(!isFileValid);
+        valid &= isFileValid;
+
+        return valid;
+    }
+
+    private boolean validateField(String fieldText){
+        return !fieldText.isEmpty();
     }
 
     private void autogenerateData(File file) {
-        String title = file.getName().replace(".mp3", "");
-        title = title.replace(".wav", "");
-        txtFTitle.setText(title);
+        if (txtFTitle.getText().isEmpty())
+            autogenerateTitle(file);
+        autogenerateTime(file);
+    }
 
+    private void autogenerateTitle(File file) {
+            String title = file.getName().replace(".mp3", "");
+            title = title.replace(".wav", "");
+            txtFTitle.setText(title);
+    }
+
+    private void autogenerateTime(File file) {
         Media media = new Media(file.toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
 
@@ -129,7 +193,7 @@ public class SongController {
             int minutes = (int) seconds / 60;
             int secs = (int) seconds % 60;
 
-            txtFTime.setText(minutes + ":" + String.format("%02d", secs));
+            txtFTime.setText(minutes + "." + String.format("%02d", secs));
         });
     }
 
@@ -137,5 +201,19 @@ public class SongController {
         Button btn = (Button) actionEvent.getSource();
         Stage window = (Stage) btn.getScene().getWindow();
         window.close();
+    }
+
+    @FXML private void onBrowseFile(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose a music file");
+        Button source = (Button) actionEvent.getSource();
+
+        Stage stage = (Stage) source.getScene().getWindow();
+        File file = fileChooser.showOpenDialog(stage);
+        if(file != null) {
+            String filepath = String.valueOf(file);
+            txtFileDrop.setText(filepath);
+            autogenerateData(file);
+        }
     }
 }

@@ -6,58 +6,64 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="400.0" prefWidth="641.0" stylesheets="/dk/easv/mytunes/Style.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.GUI.SongController">
    <children>
-      <Label fx:id="lbNewEditSong" alignment="CENTER" layoutX="240.0" layoutY="22.0" prefHeight="27.0" prefWidth="131.0" text="New/Edit Song" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0">
+      <Label fx:id="lbWindowTitle" alignment="CENTER" layoutX="240.0" layoutY="22.0" prefHeight="27.0" prefWidth="131.0" text="New Song" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txtFTitle" layoutX="129.0" layoutY="92.0" prefHeight="30.0" prefWidth="375.0" style="-fx-border-color: black;" />
-      <TextField fx:id="txtFArtist" layoutX="131.0" layoutY="144.0" prefHeight="30.0" prefWidth="375.0" style="-fx-border-color: black;" />
-      <TextField fx:id="txtFTime" layoutX="131.0" layoutY="243.0" prefHeight="30.0" prefWidth="375.0" style="-fx-border-color: black;" />
-      <Label fx:id="lbTitle" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="96.0" prefHeight="23.0" prefWidth="46.0" text="Title:" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="520.0">
+      <TextField fx:id="txtFTitle" layoutX="129.0" layoutY="92.0" prefHeight="30.0" prefWidth="375.0" promptText="Write the songs title here..." style="-fx-border-color: black;" />
+      <TextField fx:id="txtFArtist" layoutX="131.0" layoutY="144.0" prefHeight="30.0" prefWidth="375.0" promptText="Write the artist here..." style="-fx-border-color: black;" AnchorPane.leftAnchor="131.0" />
+      <TextField fx:id="txtFTime" layoutX="132.0" layoutY="295.0" prefHeight="30.0" prefWidth="375.0" promptText="Write the song time here..." style="-fx-border-color: black;" AnchorPane.leftAnchor="131.0" />
+      <Label alignment="CENTER_RIGHT" layoutX="62.0" layoutY="96.0" prefHeight="23.0" prefWidth="46.0" text="Title:" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="520.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lbArtist" alignment="CENTER_RIGHT" layoutX="56.0" layoutY="148.0" prefHeight="23.0" prefWidth="52.0" text="Artist:" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="520.0">
+      <Label alignment="CENTER_RIGHT" layoutX="56.0" layoutY="148.0" prefHeight="23.0" prefWidth="52.0" text="Artist:" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="520.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lbCategory" alignment="CENTER_RIGHT" layoutX="10.0" layoutY="194.0" prefHeight="27.0" prefWidth="88.0" text="Category:" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="520.4">
+      <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="194.0" prefHeight="27.0" prefWidth="88.0" text="Category:" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="520.4">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lbTime" alignment="CENTER_RIGHT" layoutX="59.0" layoutY="245.0" prefHeight="23.0" prefWidth="52.0" text="Time:" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="520.0">
+      <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="299.0" prefHeight="23.0" prefWidth="52.0" text="Time:" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="520.4">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lbFile" alignment="CENTER_RIGHT" layoutX="62.0" layoutY="299.0" prefHeight="23.0" prefWidth="46.0" text="File:" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="520.0">
+      <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="246.0" prefHeight="23.0" prefWidth="46.0" text="File:" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="520.4">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Button fx:id="btnMore" layoutX="293.0" layoutY="193.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="88.0" text="More..." AnchorPane.topAnchor="193.0">
+      <Button fx:id="btnBrowse" layoutX="416.0" layoutY="243.0" mnemonicParsing="false" onAction="#onBrowseFile" prefHeight="27.0" prefWidth="88.0" text="Browse..." AnchorPane.topAnchor="243.0">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btnCancel" layoutX="416.0" layoutY="347.0" mnemonicParsing="false" onAction="#onCancel" prefHeight="30.0" prefWidth="88.0" text="Cancel">
+      <Button layoutX="416.0" layoutY="347.0" mnemonicParsing="false" onAction="#onCancel" prefHeight="30.0" prefWidth="88.0" text="Cancel">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btnSave" layoutX="518.0" layoutY="347.0" mnemonicParsing="false" onAction="#onSave" prefHeight="30.0" prefWidth="88.0" text="Save">
+      <Button layoutX="518.0" layoutY="347.0" mnemonicParsing="false" onAction="#onSave" prefHeight="30.0" prefWidth="88.0" text="Save">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <ComboBox fx:id="cbCategory" editable="true" layoutX="131.0" layoutY="194.0" prefWidth="150.0" style="-fx-border-color: black;" />
-      <TextField fx:id="txtFileDrop" layoutX="129.0" layoutY="296.0" prefHeight="30.0" prefWidth="375.0" style="-fx-border-color: black;" />
+      <ComboBox fx:id="cbCategory" editable="true" layoutX="131.0" layoutY="194.0" prefHeight="27.0" prefWidth="194.0" promptText="Write or choose a category" style="-fx-border-color: black;" />
+      <TextField fx:id="txtFileDrop" editable="false" layoutX="132.0" layoutY="242.0" prefHeight="30.0" prefWidth="268.0" promptText="Drop an MP3 or WAV file here" style="-fx-border-color: black;" AnchorPane.leftAnchor="131.0" />
+      <Text fx:id="txtErrorTitle" fill="#d40909" layoutX="134.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please name the song" visible="false" AnchorPane.leftAnchor="134.0" />
+      <Text fx:id="txtErrorArtist" fill="#d40909" layoutX="134.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please name the artist" visible="false" AnchorPane.leftAnchor="134.0" />
+      <Text fx:id="txtErrorCategory" fill="#d40909" layoutX="134.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please give the song a category" visible="false" AnchorPane.leftAnchor="134.0" />
+      <Text fx:id="txtErrorLength" fill="#d40909" layoutX="134.0" layoutY="338.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the song length" visible="false" AnchorPane.leftAnchor="131.0" />
+      <Text fx:id="txtErrorFile" fill="#d40909" layoutX="130.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please choose a MP3 or WAV file" visible="false" AnchorPane.leftAnchor="131.0" />
    </children>
 </AnchorPane>

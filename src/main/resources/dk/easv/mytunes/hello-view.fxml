@@ -13,14 +13,14 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="651.0" prefWidth="960.0" stylesheets="/dk/easv/mytunes/Style.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.GUI.MainController">
    <children>
-      <Label fx:id="lbMyTunes" alignment="TOP_CENTER" layoutX="400.0" layoutY="7.0" prefHeight="23.0" prefWidth="104.0" text="MyTunes" textAlignment="CENTER" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0">
+      <Label alignment="TOP_CENTER" layoutX="400.0" layoutY="7.0" prefHeight="23.0" prefWidth="104.0" text="MyTunes" textAlignment="CENTER" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <HBox layoutX="55.0" layoutY="61.0" prefHeight="39.0" prefWidth="182.0" spacing="10.0" AnchorPane.leftAnchor="55.0" AnchorPane.rightAnchor="723.0">
          <children>
-            <Button fx:id="btnPrevS" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#onPrevS" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 100;">
+            <Button maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#onPrevS" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 100;">
                <graphic>
                    <FontIcon iconColor="WHITE" iconLiteral="fas-angle-double-left" text="" />
                </graphic>
@@ -33,7 +33,7 @@
                   <FontIcon iconColor="WHITE" iconLiteral="fas-play" iconSize="7" />
                </graphic>
             </Button>
-            <Button fx:id="btnNextS" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#onNextS" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 100;">
+            <Button maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#onNextS" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 100;">
                <graphic>
                   <FontIcon iconColor="WHITE" iconLiteral="fas-angle-double-right" />
                </graphic></Button>
@@ -41,10 +41,10 @@
       </HBox>
       <TableView fx:id="tvSongs" layoutX="533.0" layoutY="185.0" prefHeight="400.0" prefWidth="395.0">
         <columns>
-          <TableColumn fx:id="tblCoTitle" prefWidth="144.80001831054688" text="Title" />
-          <TableColumn fx:id="tblCoArtist" prefWidth="89.5999755859375" text="Artist" />
-            <TableColumn fx:id="tblCoTitle1" prefWidth="88.7999267578125" text="Category" />
-            <TableColumn fx:id="tblCoTime" prefWidth="68.0" text="Time" />
+          <TableColumn fx:id="tblCoTitle" prefWidth="137.60003662109375" text="Title" />
+          <TableColumn fx:id="tblCoArtist" prefWidth="97.60003662109375" text="Artist" />
+            <TableColumn fx:id="tblCoTitle1" prefWidth="76.7999267578125" text="Category" />
+            <TableColumn fx:id="tblCoTime" prefWidth="60.800048828125" text="Time" />
         </columns>
       </TableView>
       <Label fx:id="lbDisplay" alignment="CENTER" layoutX="367.2" layoutY="64.0" prefHeight="39.0" prefWidth="226.0" style="-fx-border-color: black;" text="Is Now Playing..." AnchorPane.leftAnchor="367.2" AnchorPane.rightAnchor="367.20000000000005">
@@ -52,7 +52,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lbSongs" layoutX="533.0" layoutY="164.0" prefHeight="18.0" prefWidth="46.0" text="Songs">
+      <Label layoutX="533.0" layoutY="164.0" prefHeight="18.0" prefWidth="46.0" text="Songs">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -64,7 +64,7 @@
             <TableColumn fx:id="tblCoPLTime" prefWidth="55.0" text="Time" />
         </columns>
       </TableView>
-      <Label fx:id="lbPlaylists" layoutX="32.0" layoutY="164.0" prefHeight="18.0" prefWidth="68.0" text="Playlists">
+      <Label layoutX="32.0" layoutY="164.0" prefHeight="18.0" prefWidth="68.0" text="Playlists">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -74,7 +74,7 @@
           <TableColumn fx:id="tblCoPLTitle" prefWidth="207.20008850097656" text="Title" />
         </columns>
       </TableView>
-      <Button fx:id="btnAdd" layoutX="474.6" layoutY="182.0" mnemonicParsing="false" onAction="#onAddSongToPlaylist" prefHeight="27.0" prefWidth="32.0" textAlignment="CENTER" AnchorPane.leftAnchor="474.6" AnchorPane.rightAnchor="445.4">
+      <Button layoutX="474.6" layoutY="182.0" mnemonicParsing="false" onAction="#onAddSongToPlaylist" prefHeight="27.0" prefWidth="32.0" textAlignment="CENTER" AnchorPane.leftAnchor="474.6" AnchorPane.rightAnchor="445.4">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -82,7 +82,7 @@
             <FontIcon iconColor="WHITE" iconLiteral="fas-arrow-left" />
          </graphic>
       </Button>
-      <Button fx:id="btnNewPL" layoutX="31.4" layoutY="598.4" maxHeight="30.0" maxWidth="40.0" minHeight="30.0" minWidth="40.0" mnemonicParsing="false" onAction="#onNewPlaylist" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="31.4" AnchorPane.rightAnchor="890.2" AnchorPane.topAnchor="600.0">
+      <Button layoutX="31.4" layoutY="598.4" maxHeight="30.0" maxWidth="40.0" minHeight="30.0" minWidth="40.0" mnemonicParsing="false" onAction="#onNewPlaylist" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="31.4" AnchorPane.rightAnchor="890.2" AnchorPane.topAnchor="600.0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -90,7 +90,7 @@
             <FontIcon iconColor="WHITE" iconLiteral="fas-plus" />
          </graphic>
       </Button>
-      <Button fx:id="btnEditPL" layoutX="78.2" layoutY="600.0" maxHeight="30.0" maxWidth="40.0" minHeight="30.0" minWidth="40.0" mnemonicParsing="false" onAction="#onEditPlaylist" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="78.2" AnchorPane.rightAnchor="843.4" AnchorPane.topAnchor="600.0">
+      <Button fx:id="btnEditPl" disable="true" layoutX="78.2" layoutY="600.0" maxHeight="30.0" maxWidth="40.0" minHeight="30.0" minWidth="40.0" mnemonicParsing="false" onAction="#onEditPlaylist" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="78.2" AnchorPane.rightAnchor="843.4" AnchorPane.topAnchor="600.0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -98,7 +98,7 @@
             <FontIcon iconColor="WHITE" iconLiteral="fas-edit" />
          </graphic>
       </Button>
-      <Button fx:id="btnPlUp" layoutX="250.0" layoutY="600.0" maxHeight="30.0" maxWidth="40.0" minHeight="30.0" minWidth="40.0" mnemonicParsing="false" onAction="#onSongUp" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="670.8" AnchorPane.topAnchor="600.0">
+      <Button fx:id="btnUp" disable="true" layoutX="250.0" layoutY="600.0" maxHeight="30.0" maxWidth="40.0" minHeight="30.0" minWidth="40.0" mnemonicParsing="false" onAction="#onSongUp" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="670.8" AnchorPane.topAnchor="600.0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -106,7 +106,7 @@
             <FontIcon iconColor="WHITE" iconLiteral="fas-arrow-up" />
          </graphic>
       </Button>
-      <Button fx:id="btnPLDown" layoutX="298.0" layoutY="600.0" maxHeight="30.0" maxWidth="40.0" minHeight="30.0" minWidth="40.0" mnemonicParsing="false" onAction="#onSongDown" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="298.0" AnchorPane.rightAnchor="622.8" AnchorPane.topAnchor="600.0">
+      <Button fx:id="btnDown" disable="true" layoutX="298.0" layoutY="600.0" maxHeight="30.0" maxWidth="40.0" minHeight="30.0" minWidth="40.0" mnemonicParsing="false" onAction="#onSongDown" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="298.0" AnchorPane.rightAnchor="622.8" AnchorPane.topAnchor="600.0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -114,7 +114,7 @@
             <FontIcon iconColor="WHITE" iconLiteral="fas-arrow-down" />
          </graphic>
       </Button>
-      <Button fx:id="btnPLSDelete" layoutX="347.0" layoutY="600.0" maxHeight="30.0" maxWidth="40.0" minHeight="30.0" minWidth="40.0" mnemonicParsing="false" onAction="#onClickPLSDelete" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="347.0" AnchorPane.rightAnchor="573.0" AnchorPane.topAnchor="600.0">
+      <Button fx:id="btnRemoveSongFromPlaylist" disable="true" layoutX="347.0" layoutY="600.0" maxHeight="30.0" maxWidth="40.0" minHeight="30.0" minWidth="40.0" mnemonicParsing="false" onAction="#onClickPLSDelete" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="347.0" AnchorPane.rightAnchor="573.0" AnchorPane.topAnchor="600.0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -122,12 +122,12 @@
              <FontIcon iconColor="WHITE" iconLiteral="fas-trash" />
          </graphic>
       </Button>
-      <Label fx:id="lbSongsOnPL" layoutX="250.0" layoutY="164.0" maxHeight="30.0" maxWidth="134.0" minHeight="20.0" minWidth="40.0" prefHeight="20.0" prefWidth="134.0" text="Songs on Playlist" AnchorPane.bottomAnchor="467.2" AnchorPane.topAnchor="164.0">
+      <Label layoutX="250.0" layoutY="164.0" maxHeight="30.0" maxWidth="134.0" minHeight="20.0" minWidth="40.0" prefHeight="20.0" prefWidth="134.0" text="Songs on Playlist" AnchorPane.bottomAnchor="467.2" AnchorPane.topAnchor="164.0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="btnNewSong" layoutX="536.2" layoutY="600.0" maxHeight="30.0" maxWidth="40.0" minHeight="30.0" minWidth="40.0" mnemonicParsing="false" onAction="#onNewSong" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="536.2" AnchorPane.rightAnchor="383.79999999999995" AnchorPane.topAnchor="600.0">
+      <Button layoutX="536.2" layoutY="600.0" maxHeight="30.0" maxWidth="40.0" minHeight="30.0" minWidth="40.0" mnemonicParsing="false" onAction="#onNewSong" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="536.2" AnchorPane.rightAnchor="383.79999999999995" AnchorPane.topAnchor="600.0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -151,7 +151,7 @@
              <FontIcon iconColor="WHITE" iconLiteral="fas-trash" />
          </graphic>
       </Button>
-      <Button fx:id="btnClose" layoutX="887.0" layoutY="600.0" maxHeight="30.0" maxWidth="40.0" minHeight="30.0" minWidth="40.0" mnemonicParsing="false" onAction="#onCloseApp" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="887.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="600.0">
+      <Button layoutX="887.0" layoutY="600.0" maxHeight="30.0" maxWidth="40.0" minHeight="30.0" minWidth="40.0" mnemonicParsing="false" onAction="#onCloseApp" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="887.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="600.0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -164,7 +164,7 @@
             <Font size="18.0" />
          </font>
       </TextField>
-      <Button fx:id="btnSearch" layoutX="888.0" layoutY="64.0" minWidth="40.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="40.0" onAction="#onClearSearch" AnchorPane.bottomAnchor="557.0" AnchorPane.leftAnchor="888.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="64.0">
+      <Button layoutX="888.0" layoutY="64.0" minWidth="40.0" mnemonicParsing="false" onAction="#onClearSearch" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="557.0" AnchorPane.leftAnchor="888.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="64.0">
          <font>
             <Font name="System Bold" size="10.0" />
          </font>
@@ -172,12 +172,12 @@
             <FontIcon iconColor="WHITE" iconLiteral="fas-hashtag" />
          </graphic>
       </Button>
-      <Label fx:id="lbFilter" alignment="BOTTOM_LEFT" layoutX="667.0" layoutY="65.0" prefHeight="30.0" prefWidth="54.0" text="Filter:">
+      <Label alignment="BOTTOM_LEFT" layoutX="667.0" layoutY="65.0" prefHeight="30.0" prefWidth="54.0" text="Filter:">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Button fx:id="btnPLDelete" layoutX="127.4" layoutY="600.0" maxHeight="30.0" maxWidth="40.0" minHeight="30.0" minWidth="40.0" mnemonicParsing="false" onAction="#onDeletePlaylist" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="127.4" AnchorPane.rightAnchor="793.4" AnchorPane.topAnchor="600.0">
+      <Button fx:id="btnDeletePl" disable="true" layoutX="127.4" layoutY="600.0" maxHeight="30.0" maxWidth="40.0" minHeight="30.0" minWidth="40.0" mnemonicParsing="false" onAction="#onDeletePlaylist" prefHeight="30.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="127.4" AnchorPane.rightAnchor="793.4" AnchorPane.topAnchor="600.0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

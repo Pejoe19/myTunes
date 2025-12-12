@@ -1,6 +1,7 @@
 package dk.easv.mytunes.Be;
 
 public class IndexSong {
+    // Instance variables
     private Song song;
     private int index;
 

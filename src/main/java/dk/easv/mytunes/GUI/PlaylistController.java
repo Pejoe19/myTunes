@@ -6,12 +6,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class PlaylistController {
 
+    @FXML private Text txtErrorPlaylist;
     @FXML private TextField txtNewPLName;
 
+    // Instance variables
     private Playlist playlistToEdit;
     private MainController parent;
     private boolean editMode = false;
@@ -36,7 +39,7 @@ public class PlaylistController {
     private void onClickSave(ActionEvent event) {
         String newName = txtNewPLName.getText().trim();
         if (newName.isEmpty()) {
-            showAlert("Playlist name cannot be empty");
+            txtErrorPlaylist.setVisible(true);
             return;
         }
 
@@ -48,6 +51,10 @@ public class PlaylistController {
             parent.createPlaylist(playlist);
         }
         closeWindow();
+    }
+
+    private boolean checkDataValidation() {
+        return true;
     }
 
     @FXML

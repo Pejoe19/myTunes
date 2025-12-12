@@ -14,12 +14,11 @@ import java.util.ArrayList;
 
 public class Model {
 
+    // Instance variables
     private final Logic logic = new Logic();
-    private final PlaylistDAO playlistDAO = new PlaylistDAO();
     private ObservableList<Song> songs;
     private ObservableList<Playlist> playlists;
     private ObservableList<IndexSong> activePlaylist;
-    private Song currentlyPlayingSong;
     private int currentSongIndex = -1;
     private boolean playingFromPlaylist = false;
 
@@ -142,10 +141,6 @@ public class Model {
                 }
             }
         }
-    }
-
-    public Song getCurrentlyPlayingSong() {
-        return currentlyPlayingSong;
     }
 
     public Song getNextSong() {

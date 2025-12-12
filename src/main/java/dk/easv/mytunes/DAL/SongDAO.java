@@ -11,6 +11,7 @@ import java.util.List;
 
 public class SongDAO {
 
+    // Instance variables
     private final DBConnector dbConnector = new DBConnector();
 
     public SongDAO() throws MusicException {

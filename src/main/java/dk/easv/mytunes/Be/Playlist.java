@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Playlist {
-
+    // Instance variables
     private int id;
     private String name;
     private int numberOfSongs = 0;

@@ -29,6 +29,10 @@ import java.util.Optional;
 
 public class MainController {
 
+    @FXML private Button btnUp;
+    @FXML private Button btnDown;
+    @FXML private Button btnRemoveSongFromPlaylist;
+    @FXML private Button btnDeletePl;
     @FXML private FontIcon iconMute;
     @FXML private Slider sliderVolume;
     @FXML private Button btnDeleteSong;
@@ -43,14 +47,14 @@ public class MainController {
     @FXML private TableColumn tblCoTime;
     @FXML private TableView<IndexSong> tvSongsOnPlaylist;
     @FXML private TableColumn<IndexSong,String> tblCoPLTitle;
-    @FXML private Button btnEditPL;
+    @FXML private Button btnEditPl;
     @FXML private Label lbDisplay;
     @FXML private Button btnPlay;
     @FXML private TableView<Song> tvSongs;
     @FXML private TextField txfFilterSearchBar;
 
+    // Instance variables
     private Song selectedSong;
-    private Song currentSong;
     private Playlist selectedPlaylist;
     private Model model;
 
@@ -71,7 +75,7 @@ public class MainController {
         loadPlaylists();
         initializeActivePlaylist();
 
-        btnEditPL.setOnAction(this::onEditPlaylist);
+        btnEditPl.setOnAction(this::onEditPlaylist);
         btnPlay.setOnAction(event -> onPlay());
 
         tvSongs.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -141,8 +145,13 @@ public class MainController {
         }
         tvPlaylists.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) ->{
             if(newValue != null) {
+                btnEditPl.setDisable(false);
+                btnDeletePl.setDisable(false);
+                btnRemoveSongFromPlaylist.setDisable(false);
+                btnDown.setDisable(false);
+                btnUp.setDisable(false);
+                selectedPlaylist = newValue;
                 try{
-                    selectedPlaylist = newValue;
                     model.displayPlaylist(selectedPlaylist);
                 }
                 catch (Exception e){
@@ -201,6 +210,7 @@ public class MainController {
         // If the window is used to edit a song, then setup editmode and load the data for the song
         if (windowType.equals("edit") && song != null){
             songController.setEditMode();
+            songController.setupWindowMode();
             songController.init(song);
         }
 

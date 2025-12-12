@@ -12,14 +12,10 @@ import java.util.List;
 
 public class PlaylistDAO {
 
-    private final DBConnector dbConnector;
+    // Instance variables
+    private final DBConnector dbConnector = new DBConnector();
 
-    {
-        try {
-            dbConnector = new DBConnector();
-        } catch (MusicException e) {
-            throw new RuntimeException(e);
-        }
+    public PlaylistDAO() throws MusicException {
     }
 
 
