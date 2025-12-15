@@ -30,7 +30,7 @@ public class Logic {
         return playlistData.getPlaylists();
     }
 
-    public void deletePlaylist(Playlist playlist) throws Exception {
+    public void deletePlaylist(Playlist playlist) throws MusicException {
         playlistData.deletePlayList(playlist);
     }
 
@@ -46,11 +46,11 @@ public class Logic {
         return playlistData.updatePlaylist(playlist);
     }
 
-    public ArrayList<IndexSong> getPlaylistsSong(Playlist playlist) throws Exception {
+    public ArrayList<IndexSong> getPlaylistsSong(Playlist playlist) throws MusicException {
         return playlistsSongData.getPlaylistsSong(playlist);
     }
 
-    public void removeSongFromPlaylist(Playlist playlist, IndexSong indexSong) throws Exception {
+    public void removeSongFromPlaylist(Playlist playlist, IndexSong indexSong) throws MusicException {
         playlistsSongData.removeSongFromPlaylist(playlist, indexSong.getIndex());
     }
 
@@ -62,15 +62,15 @@ public class Logic {
             return songData.createSong(song);
     }
 
-    public IndexSong addSongToPlaylist(Playlist playlist, Song song) throws Exception {
+    public IndexSong addSongToPlaylist(Playlist playlist, Song song) throws MusicException {
         return playlistsSongData.addSongToPlaylist(playlist, song);
     }
 
-    public void loadSongFile(Song song) throws Exception {
+    public void loadSongFile(Song song) throws MusicException {
         songData.loadSongFile(song);
     }
 
-    public void playMedia(Song song, Runnable onMediaEnd) throws MalformedURLException {
+    public void playMedia(Song song, Runnable onMediaEnd) throws MusicException {
         musicManager.playMedia(song, onMediaEnd);
     }
 

@@ -151,7 +151,7 @@ public class MainController {
                 try{
                     model.displayPlaylist(selectedPlaylist);
                 }
-                catch (Exception e){
+                catch (MusicException e){
                     displayError(e);
                 }
 
@@ -180,7 +180,7 @@ public class MainController {
             model.createSong(newSong);
             loadSongs();
             tvSongs.getSelectionModel().selectLast();
-        } catch (Exception e) {
+        } catch (MusicException e) {
             displayError(e);
         }
     }
@@ -230,7 +230,7 @@ public class MainController {
             if(conformationMassage("conformation massage", "do you want to delete playlist "+playlist.getName())){
                 try{
                     model.deletePlaylist(playlist);
-                } catch (Exception e) {
+                } catch (MusicException e) {
                     displayError(e);
                 }
             }
@@ -382,7 +382,7 @@ public class MainController {
                     model.removeSongFromPlaylist(selectedPlaylist, selectedIndexSong);
                     model.displayPlaylist(selectedPlaylist);
                     refreshPlaylistStats(selectedPlaylist);
-                } catch (Exception e) {
+                } catch (MusicException e) {
                     displayError(e);
                 }
             }

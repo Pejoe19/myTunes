@@ -177,9 +177,9 @@ public class SongDAO {
     /**
      * load the file of a song from the database
      * @param song the song to load the file for
-     * @throws Exception
+     * @throws MusicException
      */
-    public void loadSongFile(Song song) throws Exception {
+    public void loadSongFile(Song song) throws MusicException {
         // Skip if already loaded or cached
         if (song.getFile() != null && song.getFile().exists()) {
             return;
@@ -214,7 +214,7 @@ public class SongDAO {
                 }
             }
         } catch (Exception e) {
-            throw new Exception("Failed to load song file from database", e);
+            throw new MusicException("Failed to load song file from database", e);
         }
     }
 }

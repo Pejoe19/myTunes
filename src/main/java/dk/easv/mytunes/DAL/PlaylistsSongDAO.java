@@ -17,7 +17,7 @@ public class PlaylistsSongDAO {
     public PlaylistsSongDAO() throws MusicException {
     }
 
-    public ArrayList<IndexSong> getPlaylistsSong(Playlist playlist) throws Exception {
+    public ArrayList<IndexSong> getPlaylistsSong(Playlist playlist) throws MusicException {
         String sql = "select * from dbo.SongPlaylistRelation where playlistId = ?";
         ArrayList<IndexSong> indexSongArrayList = new ArrayList<>();
         try(Connection conn = DBConnector.getStaticConnection()) {
@@ -35,11 +35,11 @@ public class PlaylistsSongDAO {
             return indexSongArrayList;
         }
         catch (Exception e) {
-            throw new Exception(e);
+            throw new MusicException(e);
         }
     }
 
-    public void removeSongFromPlaylist(Playlist playlist, int songIndex) throws Exception {
+    public void removeSongFromPlaylist(Playlist playlist, int songIndex) throws MusicException {
         String sql = "DELETE FROM dbo.SongPlaylistRelation WHERE PlaylistId = ? AND [Index] = ?";
 
         try (Connection conn = DBConnector.getStaticConnection();
@@ -49,8 +49,8 @@ public class PlaylistsSongDAO {
             stmt.setInt(2, songIndex);
             stmt.executeUpdate();
 
-        } catch (SQLException e) {
-            throw new Exception("Could not remove song from playlist", e);
+        } catch (Exception e) {
+            throw new MusicException("Could not remove song from playlist", e);
         }
     }
 
@@ -81,7 +81,7 @@ public class PlaylistsSongDAO {
         }
     }
 
-    public IndexSong addSongToPlaylist(Playlist playlist, Song song) throws Exception {
+    public IndexSong addSongToPlaylist(Playlist playlist, Song song) throws MusicException {
         String sqlGetIndex = "SELECT ISNULL(MAX([Index]), 0) + 1 AS NextIndex FROM dbo.SongPlaylistRelation WHERE PlaylistId = ?";
         String sqlInsert = "INSERT INTO dbo.SongPlaylistRelation (PlaylistId, SongId, [Index]) VALUES (?, ?, ?)";
         try (Connection conn = DBConnector.getStaticConnection()) {
@@ -104,7 +104,7 @@ public class PlaylistsSongDAO {
             // Return the IndexSong object (so GUI can update instantly)
             return new IndexSong(song, nextIndex);
         } catch (Exception e) {
-            throw new Exception("Could not add song to playlist", e);
+            throw new MusicException("Could not add song to playlist", e);
         }
     }
 }

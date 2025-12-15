@@ -18,12 +18,17 @@ public class MusicManager {
         this.isMuted = false;
     }
 
-    public void playMedia(Song song, Runnable onMediaEnd) throws MalformedURLException {
+    public void playMedia(Song song, Runnable onMediaEnd) throws MusicException {
         if(mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.dispose();
         }
-        Media media = new Media(song.getFile().toURL().toString());
+        Media media = null;
+        try {
+            media = new Media(song.getFile().toURL().toString());
+        } catch (MalformedURLException e) {
+            throw new MusicException("URL Malformatted");
+        }
         mediaPlayer = new MediaPlayer(media);
         setVolume(volume);
         mediaPlayer.setMute(isMuted());

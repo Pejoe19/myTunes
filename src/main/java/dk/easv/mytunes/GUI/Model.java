@@ -50,7 +50,7 @@ public class Model {
         return activePlaylist;
     }
 
-    public void displayPlaylist(Playlist playlist) throws Exception {
+    public void displayPlaylist(Playlist playlist) throws MusicException {
         activePlaylist.clear();
 
         // Always fetch the songs for this playlist from DB
@@ -98,7 +98,7 @@ public class Model {
         return 0;
     }
 
-    public void deletePlaylist(Playlist playlist) throws Exception {
+    public void deletePlaylist(Playlist playlist) throws MusicException {
         logic.deletePlaylist(playlist);
         playlists.remove(playlist);
     }
@@ -173,7 +173,7 @@ public class Model {
         return null;
     }
 
-    public void removeSongFromPlaylist(Playlist playlist, IndexSong indexSong) throws Exception {
+    public void removeSongFromPlaylist(Playlist playlist, IndexSong indexSong) throws MusicException {
         logic.removeSongFromPlaylist(playlist, indexSong);
     }
 
@@ -185,16 +185,12 @@ public class Model {
         activePlaylist.add(newPlacementId, song);
     }
 
-    public void addSongToPlaylist(Playlist playlist, Song song) {
-        try {
-            IndexSong addedSong = logic.addSongToPlaylist(playlist, song);
-            activePlaylist.add(addedSong);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void addSongToPlaylist(Playlist playlist, Song song) throws MusicException {
+        IndexSong addedSong = logic.addSongToPlaylist(playlist, song);
+        activePlaylist.add(addedSong);
     }
 
-    public void loadAndPlayMedia (Song song, Runnable onMediaEnd) throws Exception {
+    public void loadAndPlayMedia (Song song, Runnable onMediaEnd) throws MusicException {
         if (song.getFile() == null || !song.getFile().exists()) {
             logic.loadSongFile(song);
         }

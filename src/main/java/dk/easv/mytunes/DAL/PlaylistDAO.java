@@ -54,7 +54,7 @@ public class PlaylistDAO {
         }
     }
 
-    public void deletePlayList(Playlist playlist) throws Exception {
+    public void deletePlayList(Playlist playlist) throws MusicException {
         String SQL = "delete from dbo.Playlists where id=?";
         try (Connection conn = DBConnector.getStaticConnection()){
             PreparedStatement stmt = conn.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
@@ -62,7 +62,7 @@ public class PlaylistDAO {
             stmt.executeQuery();
         }
         catch (Exception e){
-            throw new Exception("something went wrong",e);
+            throw new MusicException("something went wrong",e);
         }
     }
 
