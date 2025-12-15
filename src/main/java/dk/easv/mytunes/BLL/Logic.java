@@ -91,4 +91,20 @@ public class Logic {
     public Playlist createPlaylist(Playlist playlist) throws MusicException {
         return playlistData.createPlaylist(playlist);
     }
+
+    public boolean isPlaying() throws MusicException {
+        return musicManager.isPlaying();
+    }
+
+    public boolean isPaused() throws MusicException {
+        return musicManager.isPaused();
+    }
+
+    public void pause() throws MusicException {
+        musicManager.pause();
+    }
+
+    public void resume() throws MusicException {
+        musicManager.resume();
+    }
 }

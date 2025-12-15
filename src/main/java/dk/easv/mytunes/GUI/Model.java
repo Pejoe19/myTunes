@@ -224,4 +224,20 @@ public class Model {
         Playlist created = logic.createPlaylist(playlist);
         playlists.add(created);
     }
+
+    public boolean isPlaying() throws MusicException {
+        return logic.isPlaying();
+    }
+
+    public boolean isPaused() throws MusicException {
+        return logic.isPaused();
+    }
+
+    public void pause() throws MusicException {
+        logic.pause();
+    }
+
+    public void resume() throws MusicException {
+        logic.resume();
+    }
 }

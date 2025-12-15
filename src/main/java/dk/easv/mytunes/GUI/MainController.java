@@ -76,7 +76,13 @@ public class MainController {
         initializeActivePlaylist();
 
         btnEditPl.setOnAction(this::onEditPlaylist);
-        btnPlay.setOnAction(event -> onPlay());
+        btnPlay.setOnAction(event -> {
+            try {
+                onPlay();
+            } catch (MusicException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         tvSongs.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -330,13 +336,49 @@ public class MainController {
         }
     }
 
-    private void onPlay() {
-        if (selectedSong != null) {
+    @FXML
+    private void onPlay() throws MusicException {
+        if (model.isPlaying()) {
+            // Hvis der allerede spiller musik, pause den
+            model.pause();
+            setPlayIcon();
+            lbDisplay.setText("Paused");
+        }
+        else if (model.isPaused()) {
+            // Hvis musikken er paused, fortsæt
+            model.resume();
+            setPauseIcon();
+            if (selectedSong != null) {
+                lbDisplay.setText("Now playing: " + selectedSong.getTitle() + " - " + selectedSong.getArtist());
+            } else {
+                lbDisplay.setText("Now playing...");
+            }
+        }
+        else if (selectedSong != null) {
+            // Hvis ingen musik spiller, start den valgte sang
             model.setCurrentlyPlayingSong(selectedSong);
             lbDisplay.setText("Now playing: " + selectedSong.getTitle() + " - " + selectedSong.getArtist());
             playMedia(selectedSong);
-        } else {
+            setPauseIcon();
+        }
+        else {
             lbDisplay.setText("No song selected to play.");
+        }
+    }
+
+    private void setPlayIcon() {
+        if (btnPlay.getGraphic() instanceof FontIcon) {
+            ((FontIcon) btnPlay.getGraphic()).setIconLiteral("fas-play");
+        } else {
+            btnPlay.setGraphic(new FontIcon("fas-play"));
+        }
+    }
+
+    private void setPauseIcon() {
+        if (btnPlay.getGraphic() instanceof FontIcon) {
+            ((FontIcon) btnPlay.getGraphic()).setIconLiteral("fas-pause");
+        } else {
+            btnPlay.setGraphic(new FontIcon("fas-pause"));
         }
     }
 
@@ -445,6 +487,7 @@ public class MainController {
     private void playMedia(Song song) {
         try {
             model.loadAndPlayMedia(song, () -> onNextS(new ActionEvent()));
+            setPauseIcon();
         }
         catch (Exception e) {
             displayError(e);

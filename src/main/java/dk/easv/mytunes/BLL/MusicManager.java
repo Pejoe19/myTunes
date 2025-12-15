@@ -3,7 +3,7 @@ package dk.easv.mytunes.BLL;
 import dk.easv.mytunes.Be.Song;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-
+import javafx.scene.media.MediaPlayer.Status;
 import java.net.MalformedURLException;
 
 public class MusicManager {
@@ -57,5 +57,25 @@ public class MusicManager {
                 "volume=" + volume +
                 ", isMuted=" + isMuted +
                 '}';
+    }
+
+    public boolean isPlaying(){
+        return mediaPlayer != null && mediaPlayer.getStatus() == Status.PLAYING;
+    }
+
+    public boolean isPaused(){
+        return mediaPlayer != null && mediaPlayer.getStatus() == Status.PAUSED;
+    }
+
+    public void pause(){
+        if(mediaPlayer != null){
+            mediaPlayer.pause();
+        }
+    }
+
+    public void resume(){
+        if(mediaPlayer != null){
+            mediaPlayer.play();
+        }
     }
 }
