@@ -188,7 +188,7 @@ public class SongDAO {
         File tempDir = new File("src/main/resources/temp/");
         if (!tempDir.exists()) tempDir.mkdirs();
         // Use a consistent filename
-        File cachedFile = new File(tempDir, song.getTitle().replaceAll(" ", "_") + ".mp3");
+        File cachedFile = new File(tempDir, song.getTitle().replaceAll(" ", "_"));
         // If cached version exists, use it directly
         if (cachedFile.exists()) {
             song.setFile(cachedFile);
