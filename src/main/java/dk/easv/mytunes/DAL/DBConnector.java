@@ -34,9 +34,20 @@ public class DBConnector {
         }
     }
 
+    /**
+     * get a connection to the database
+     * @return Connection to the database
+     * @throws SQLServerException
+     */
     public Connection getConnection() throws SQLServerException {
         return dataSource.getConnection();
     }
+
+    /**
+     * static get a connection to the database
+     * @return Connection to the database
+     * @throws Exception
+     */
     public static Connection getStaticConnection() throws Exception {
         DBConnector dbConnector = new DBConnector();
         return dbConnector.getConnection();
