@@ -195,7 +195,9 @@ public class Model {
     }
 
     public void loadAndPlayMedia (Song song, Runnable onMediaEnd) throws Exception {
-        loadSongFile(song);
+        if (song.getFile() == null || !song.getFile().exists()) {
+            logic.loadSongFile(song);
+        }
         if(song.getFile() != null) {
             logic.playMedia(song, onMediaEnd);
         }
