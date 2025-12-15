@@ -180,36 +180,41 @@ public class SongDAO {
      * @throws Exception
      */
     public void loadSongFile(Song song) throws Exception {
-        String SQL = "select [File] from Songs where id = ?";
-        try(Connection conn = DBConnector.getStaticConnection()) {
-            PreparedStatement stmt = conn.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+        // Skip if already loaded or cached
+        if (song.getFile() != null && song.getFile().exists()) {
+            return;
+        }
+        // Define cache folder
+        File tempDir = new File("src/main/resources/temp/");
+        if (!tempDir.exists()) tempDir.mkdirs();
+        // Use a consistent filename
+        File cachedFile = new File(tempDir, song.getTitle().replaceAll(" ", "_") + ".mp3");
+        // If cached version exists, use it directly
+        if (cachedFile.exists()) {
+            song.setFile(cachedFile);
+            return;
+        }
+        // Otherwise, load it from the database once
+        String SQL = "SELECT [File] FROM Songs WHERE Id = ?";
+        try (Connection conn = DBConnector.getStaticConnection();
+             PreparedStatement stmt = conn.prepareStatement(SQL)) {
             stmt.setInt(1, song.getId());
-            stmt.executeQuery();
-            ResultSet rs = stmt.getResultSet();
-            if(rs.next()) {
-                File songFile = new File("src/main/resources/temp/"+song.getTitle().replaceAll(" ","_"));
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
                 InputStream inputStream = rs.getBinaryStream("file");
-                if(inputStream != null) {
-                    try(OutputStream outputStream = new FileOutputStream(songFile)) {
+                if (inputStream != null) {
+                    try (OutputStream outputStream = new FileOutputStream(cachedFile)) {
                         byte[] buffer = new byte[4096];
                         int bytesRead;
-
                         while ((bytesRead = inputStream.read(buffer)) != -1) {
                             outputStream.write(buffer, 0, bytesRead);
                         }
-                        song.setFile(songFile);
-                    }
-                    catch (Exception e) {
-                        throw new Exception("something has gone wrong when reading the file from database");
+                        song.setFile(cachedFile);
                     }
                 }
-
-
             }
-
-        }
-        catch (Exception e) {
-            throw new Exception("something has gone wrong when getting the file from DataBase");
+        } catch (Exception e) {
+            throw new Exception("Failed to load song file from database", e);
         }
     }
 }

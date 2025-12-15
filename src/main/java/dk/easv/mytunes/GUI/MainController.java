@@ -23,7 +23,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
-
 import java.io.IOException;
 import java.util.Optional;
 
@@ -331,13 +330,11 @@ public class MainController {
     @FXML
     private void onPlay() throws MusicException {
         if (model.isPlaying()) {
-            // Hvis der allerede spiller musik, pause den
             model.pause();
             setPlayIcon();
             lbDisplay.setText("Paused");
         }
         else if (model.isPaused()) {
-            // Hvis musikken er paused, fortsæt
             model.resume();
             setPauseIcon();
             if (selectedSong != null) {
@@ -347,7 +344,6 @@ public class MainController {
             }
         }
         else if (selectedSong != null) {
-            // Hvis ingen musik spiller, start den valgte sang
             model.setCurrentlyPlayingSong(selectedSong);
             lbDisplay.setText("Now playing: " + selectedSong.getTitle() + " - " + selectedSong.getArtist());
             playMedia(selectedSong);
