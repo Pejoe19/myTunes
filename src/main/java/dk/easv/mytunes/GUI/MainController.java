@@ -329,22 +329,37 @@ public class MainController {
 
     @FXML
     private void onPlay() throws MusicException {
+        Song current = model.getCurrentSong(); // hvad modellen mener er den nuværende sang
         if (model.isPlaying()) {
+            // Noget spiller lige nu → pause
             model.pause();
             setPlayIcon();
             lbDisplay.setText("Paused");
         }
         else if (model.isPaused()) {
-            model.resume();
-            setPauseIcon();
-            if (selectedSong != null) {
+            // Noget er på pause
+            // Hvis brugeren har valgt en ANDEN sang end den der er på pause → start den nye
+            if (selectedSong != null && current != null && selectedSong.getId() != current.getId()) {
+                boolean fromPlaylist = isPlayingFromPlaylist();
+                model.setCurrentlyPlayingSong(selectedSong, fromPlaylist);
                 lbDisplay.setText("Now playing: " + selectedSong.getTitle() + " - " + selectedSong.getArtist());
+                playMedia(selectedSong);
+                setPauseIcon();
             } else {
-                lbDisplay.setText("Now playing...");
+                // Samme sang → bare fortsæt
+                model.resume();
+                setPauseIcon();
+                if (current != null) {
+                    lbDisplay.setText("Now playing: " + current.getTitle() + " - " + current.getArtist());
+                } else {
+                    lbDisplay.setText("Now playing...");
+                }
             }
         }
         else if (selectedSong != null) {
-            model.setCurrentlyPlayingSong(selectedSong);
+            // Intet spiller og intet er på pause → start valgte sang
+            boolean fromPlaylist = isPlayingFromPlaylist();
+            model.setCurrentlyPlayingSong(selectedSong, fromPlaylist);
             lbDisplay.setText("Now playing: " + selectedSong.getTitle() + " - " + selectedSong.getArtist());
             playMedia(selectedSong);
             setPauseIcon();
@@ -445,7 +460,7 @@ public class MainController {
         try {
             Song next = model.getNextSong();
             if (next != null) {
-                model.setCurrentlyPlayingSong(next);
+                selectedSong = next; // opdater valgt sang til UI
                 lbDisplay.setText("Now playing: " + next.getTitle() + " - " + next.getArtist());
                 playMedia(next);
             } else {
@@ -461,7 +476,7 @@ public class MainController {
         try {
             Song prev = model.getPreviousSong();
             if (prev != null) {
-                model.setCurrentlyPlayingSong(prev);
+                selectedSong = prev; // opdater valgt sang til UI
                 lbDisplay.setText("Now playing: " + prev.getTitle() + " - " + prev.getArtist());
                 playMedia(prev);
             } else {
@@ -470,6 +485,10 @@ public class MainController {
         } catch (Exception e) {
             displayError(e);
         }
+    }
+
+    private boolean isPlayingFromPlaylist() {
+        return tvSongsOnPlaylist.getSelectionModel().getSelectedItem() != null;
     }
 
     private void playMedia(Song song) {
