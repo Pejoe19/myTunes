@@ -29,6 +29,7 @@ import java.util.Optional;
 
 public class MainController {
 
+    // FXML elements
     @FXML private Button btnUp;
     @FXML private Button btnDown;
     @FXML private Button btnRemoveSongFromPlaylist;
@@ -56,18 +57,9 @@ public class MainController {
     // Instance variables
     private Song selectedSong;
     private Playlist selectedPlaylist;
-    private Model model;
+    private final Model model = new Model();
 
-    {
-        try {
-            model = new Model();
-        } catch (MusicException e) {
-            displayError(e);
-        }
-    }
-
-
-    public MainController() {
+    public MainController() throws MusicException {
     }
 
     public void initialize(){
