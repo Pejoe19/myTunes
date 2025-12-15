@@ -17,6 +17,11 @@ public class SongDAO {
     public SongDAO() throws MusicException {
     }
 
+    /**
+     * get all the song from the database without the file
+     * @return list of song
+     * @throws MusicException
+     */
     public List<Song> getAllSongs() throws MusicException {
         List<Song> songs = new ArrayList<>();
 
@@ -44,7 +49,12 @@ public class SongDAO {
     }
 
 
-
+    /**
+     * update a song on id with title, artist, category and time and optional a file
+     * @param song the song with the changes
+     * @return the update song
+     * @throws MusicException
+     */
     public Song updateSong(Song song) throws MusicException {
         try (Connection conn = dbConnector.getConnection())
         {
@@ -86,6 +96,11 @@ public class SongDAO {
         }
     }
 
+    /**
+     * delete the song on id in the database
+     * @param song to delete
+     * @throws MusicException
+     */
     public void deleteSong(Song song) throws MusicException {
         String SQLDeleteInSongs = "delete from dbo.Songs where id=?";
         try (Connection conn = DBConnector.getStaticConnection()){
@@ -107,6 +122,13 @@ public class SongDAO {
             throw new MusicException("Could not delete song in the database relations",e);
         }
     }
+
+    /**
+     * this writ a song to the database with title, artist, category and time, and optional a file
+     * @param song the song to write to the database
+     * @return the song with the id
+     * @throws MusicException
+     */
     public Song createSong(Song song) throws MusicException {
         String sql;
         if(song.getFile() != null)
@@ -152,6 +174,11 @@ public class SongDAO {
         }
     }
 
+    /**
+     * load the file of a song from the database
+     * @param song the song to load the file for
+     * @throws Exception
+     */
     public void loadSongFile(Song song) throws Exception {
         String SQL = "select [File] from Songs where id = ?";
         try(Connection conn = DBConnector.getStaticConnection()) {
