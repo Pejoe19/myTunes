@@ -1,21 +1,19 @@
 package dk.easv.mytunes.GUI;
 
-import dk.easv.mytunes.BLL.Logic;
+import dk.easv.mytunes.BLL.BLLManager;
 import dk.easv.mytunes.BLL.MusicException;
 import dk.easv.mytunes.Be.IndexSong;
 import dk.easv.mytunes.Be.Playlist;
 import dk.easv.mytunes.Be.Song;
-import dk.easv.mytunes.DAL.PlaylistDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 public class Model {
 
     // Instance variables
-    private final Logic logic = new Logic();
+    private final BLLManager logic = new BLLManager();
     private ObservableList<Song> songs;
     private ObservableList<Playlist> playlists;
     private ObservableList<IndexSong> activePlaylist;
