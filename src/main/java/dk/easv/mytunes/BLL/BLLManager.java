@@ -163,7 +163,7 @@ public class BLLManager {
      *Tells the musicManager to toggle mute
      */
     public void toogleMute() {
-        musicManager.toogleMute();
+        musicManager.toggleMute();
     }
 
     /**
