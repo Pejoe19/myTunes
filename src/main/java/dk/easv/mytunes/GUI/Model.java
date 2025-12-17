@@ -118,39 +118,55 @@ public class Model {
         }
     }
 
-    public void setCurrentlyPlayingSong(Song song) {
-        // Check if the song exists in the active playlist
-        if (activePlaylist != null && !activePlaylist.isEmpty()) {
-            for (int i = 0; i < activePlaylist.size(); i++) {
-                if (activePlaylist.get(i).getSong().getId() == song.getId()) {
-                    currentSongIndex = i;
-                    playingFromPlaylist = true;
-                    return;
+    public void setCurrentlyPlayingSong(Song song, boolean fromPlaylist) {
+        if (song == null) return;
+        // Husk hvilken sang der er den aktuelle
+        currentSong = song;
+        // Husk hvor vi spiller fra (playlist eller bibliotek)
+        playingFromPlaylist = fromPlaylist;
+        if (fromPlaylist) {
+            // Søg efter sangen i den aktive playlist
+            if (activePlaylist != null && !activePlaylist.isEmpty()) {
+                for (int i = 0; i < activePlaylist.size(); i++) {
+                    IndexSong indexSong = activePlaylist.get(i);
+                    if (indexSong.getSong() != null && indexSong.getSong().getId() == song.getId()) {
+                        currentSongIndex = i;
+                        return;
+                    }
+                }
+            }
+        } else {
+            // Søg efter sangen i biblioteket (songs-listen)
+            if (songs != null && !songs.isEmpty()) {
+                for (int i = 0; i < songs.size(); i++) {
+                    Song s = songs.get(i);
+                    if (s != null && s.getId() == song.getId()) {
+                        currentSongIndex = i;
+                        return;
+                    }
                 }
             }
         }
-        // Otherwise, it must come from the library
-        if (songs != null && !songs.isEmpty()) {
-            for (int i = 0; i < songs.size(); i++) {
-                if (songs.get(i).getId() == song.getId()) {
-                    currentSongIndex = i;
-                    playingFromPlaylist = false;
-                    return;
-                }
-            }
-        }
+    }
+
+    private Song currentSong; // den sang der faktisk afspilles / er sat som "current"
+
+    public Song getCurrentSong() {
+        return currentSong;
     }
 
     public Song getNextSong() {
         if (playingFromPlaylist && activePlaylist != null && !activePlaylist.isEmpty()) {
             if (currentSongIndex < activePlaylist.size() - 1) {
                 currentSongIndex++;
-                return activePlaylist.get(currentSongIndex).getSong();
+                currentSong = activePlaylist.get(currentSongIndex).getSong();
+                return currentSong;
             }
         } else if (!playingFromPlaylist && songs != null && !songs.isEmpty()) {
             if (currentSongIndex < songs.size() - 1) {
                 currentSongIndex++;
-                return songs.get(currentSongIndex);
+                currentSong = songs.get(currentSongIndex);
+                return currentSong;
             }
         }
         return null;
@@ -160,12 +176,14 @@ public class Model {
         if (playingFromPlaylist && activePlaylist != null && !activePlaylist.isEmpty()) {
             if (currentSongIndex > 0) {
                 currentSongIndex--;
-                return activePlaylist.get(currentSongIndex).getSong();
+                currentSong = activePlaylist.get(currentSongIndex).getSong();
+                return currentSong;
             }
         } else if (!playingFromPlaylist && songs != null && !songs.isEmpty()) {
             if (currentSongIndex > 0) {
                 currentSongIndex--;
-                return songs.get(currentSongIndex);
+                currentSong = songs.get(currentSongIndex);
+                return currentSong;
             }
         }
         return null;
